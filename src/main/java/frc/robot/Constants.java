@@ -16,4 +16,22 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final int K_UNITS_PER_REVOLUTION = 2048; /* this is constant for Talon FX */
+  public static final int LEFT_UPPER_DRIVE_ID = 4;
+  public static final int LEFT_LOWER_DRIVE_ID = 1;
+  public static final int RIGHT_UPPER_DRIVE_ID = 2;
+  public static final int RIGHT_LOWER_DRIVE_ID = 3;
+
+  public static final int DRIVER_CONTROLLER_PORT = 0;
+  public static final int OPERATOR_CONTROLLER_PORT = 1;
+
+  public static final int SHOOTER_MOTOR_ID = 42;
+  public static final int TURRET_MOTOR_ID = 55;
+  public static final int VERTICAL_FEEDER_MOTOR_ID = 54;
+  public static final int INTAKE_POSITION_MOTOR_ID = 22;
+  public static final int INTAKE_BELT_MOTOR_ID = 21;
+
+  public static final int TALON_DEFAULT_PID_PORT = 0;
+  public static final int TALON_TIMEOUT_MS = 10;
+
 }
