@@ -22,6 +22,7 @@ import frc.robot.commands.Auto6Ball;
 import frc.robot.commands.Auto8Ball;
 import frc.robot.commands.AutoChaosMonkey;
 import frc.robot.commands.DriveRobot;
+import frc.robot.commands.IntakeABall;
 import frc.robot.commands.ShootAtSpeed;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.HorizontalIndexer;
@@ -104,6 +105,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //******* Driver Controls ************/
     // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_chassis.setMaxOutput(0.5))
@@ -120,7 +122,12 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, Button.kB.value)
         .whenPressed(() -> new ShootAtSpeed(20000, m_shooter, m_verticalIndexer));
-    
+
+
+
+    //***** Operator Controls ***********/
+    new JoystickButton(m_operatorController, Button.kX.value)
+        .whenPressed(() -> new IntakeABall(m_intake));
   }
 
 

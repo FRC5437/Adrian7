@@ -23,6 +23,22 @@ public class Intake extends SubsystemBase {
 
   }
 
+  public void raiseIntake(){
+
+  }
+
+  public void lowerIntake(){
+
+  }
+
+  public void ingest(){
+
+  }
+
+  public void eject(){
+    
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
