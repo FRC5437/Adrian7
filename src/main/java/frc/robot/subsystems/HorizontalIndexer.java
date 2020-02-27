@@ -7,19 +7,13 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
-public class Intake extends SubsystemBase {
-  private final WPI_TalonSRX m_intakePositionMotor = new WPI_TalonSRX(Constants.INTAKE_POSITION_MOTOR_ID);
-  private final WPI_TalonSRX m_intakeBeltMotor = new WPI_TalonSRX(Constants.INTAKE_BELT_MOTOR_ID);
-  
+public class HorizontalIndexer extends SubsystemBase {
   /**
-   * Creates a new Intake.
+   * Creates a new HorizontalIndexer.
    */
-  public Intake() {
+  public HorizontalIndexer() {
 
   }
 
