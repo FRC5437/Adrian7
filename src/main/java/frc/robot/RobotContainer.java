@@ -37,7 +37,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_chassis.setDefaultCommand(new RunCommand(() -> m_chassis.arcadeDrive(m_driverController.getY(Hand.kLeft), m_driverController.getX(Hand.kLeft))));
+    m_chassis.setDefaultCommand(new RunCommand(
+      () -> m_chassis.arcadeDrive(m_driverController.getY(Hand.kLeft), m_driverController.getX(Hand.kLeft)), 
+      m_chassis)
+    
+    );
   }
 
   /**

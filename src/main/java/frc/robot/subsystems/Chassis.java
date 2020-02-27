@@ -107,7 +107,7 @@ public class Chassis extends SubsystemBase {
     final int sign = (int) Math.signum(rawValue);
     double modifiedValue = Math.pow(rawValue, 4.0);//rawValue * rawValue * rawValue * rawValue;
     //deadband
-    if (modifiedValue < 0.1) {
+    if (modifiedValue < 0.05) {
         modifiedValue = 0.0;
     }
 
