@@ -7,14 +7,28 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class VerticalIndexer extends SubsystemBase {
+  private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.VERTICAL_FEEDER_MOTOR_ID);
+
   /**
    * Creates a new VerticalIndexer.
    */
   public VerticalIndexer() {
 
+  }
+
+  public void activate(){
+    m_feederMotor.set(ControlMode.PercentOutput, 0.5);
+  }
+
+  public void deactivate(){
+    m_feederMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
   @Override

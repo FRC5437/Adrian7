@@ -24,11 +24,11 @@ public class DriveRobot extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveRobot(Chassis subsystem, XboxController xbox) {
-    m_subsystem = subsystem;
+  public DriveRobot(Chassis chassis, XboxController xbox) {
+    m_subsystem = chassis;
     m_xbox = xbox;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(chassis);
   }
 
   // Called when the command is initially scheduled.

@@ -22,6 +22,18 @@ public class Turret extends SubsystemBase {
 
   }
 
+  public void limelight3dTest() {
+    //final double[] camtran = limelight3dTransposeArray.getDoubleArray(new double[] {});
+    //final double zValueFromTarget = camtran[2];
+
+ //   if (zValueFromTarget < -60.0) {
+      //m_robotDrive.arcadeDrive(0.6, 0.0);
+//    } else {
+      //System.out.println(zValueFromTarget);
+      //m_robotDrive.arcadeDrive(0.0, 0.0);
+ //   }
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

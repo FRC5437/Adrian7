@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -25,6 +26,14 @@ public class Shooter extends SubsystemBase {
    */
   public Shooter() {
     initializeShooter();
+  }
+
+  public int getCurrentSpeed(){
+    return m_shooterMotor.getSelectedSensorVelocity();
+  }
+
+  public void setSpeed(int targetSpeed){
+    m_shooterMotor.set(ControlMode.Velocity, targetSpeed);
   }
 
   @Override
