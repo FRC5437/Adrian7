@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,19 +25,23 @@ public class Intake extends SubsystemBase {
   }
 
   public void raiseIntake(){
-
+    //TODO use position encoders
   }
 
   public void lowerIntake(){
-
+    //TODO use position encoders
   }
 
   public void ingest(){
-
+    m_intakeBeltMotor.set(ControlMode.PercentOutput, -0.9);
   }
 
   public void eject(){
-    
+    m_intakeBeltMotor.set(ControlMode.PercentOutput, 0.9);
+  }
+
+  public void stop(){
+    m_intakeBeltMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
   @Override

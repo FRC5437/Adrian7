@@ -52,6 +52,8 @@ public class ShootAtSpeed extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shooter.setSpeed(0);
+    m_indexer.deactivate();
   }
 
   // Returns true when the command should end.

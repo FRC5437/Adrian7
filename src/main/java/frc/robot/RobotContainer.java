@@ -23,6 +23,7 @@ import frc.robot.commands.Auto8Ball;
 import frc.robot.commands.AutoChaosMonkey;
 import frc.robot.commands.DriveRobot;
 import frc.robot.commands.IntakeABall;
+import frc.robot.commands.RotateTurret;
 import frc.robot.commands.ShootAtSpeed;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.HorizontalIndexer;
@@ -74,7 +75,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
-    
+    m_turret.setDefaultCommand(new RotateTurret(m_turret, m_operatorController));
     initializeAutoChooser();
   }
 
@@ -112,22 +113,22 @@ public class RobotContainer {
         .whenReleased(() -> m_chassis.setMaxOutput(1));
 
     new JoystickButton(m_driverController, Button.kX.value)
-        .whenPressed(() -> new ShootAtSpeed(17000, m_shooter, m_verticalIndexer));
+        .whileHeld(new ShootAtSpeed(17000, m_shooter, m_verticalIndexer));
 
     new JoystickButton(m_driverController, Button.kY.value)
-        .whenPressed(() -> new ShootAtSpeed(17500, m_shooter, m_verticalIndexer));
+        .whileHeld(new ShootAtSpeed(17500, m_shooter, m_verticalIndexer));
 
     new JoystickButton(m_driverController, Button.kA.value)
-        .whenPressed(() -> new ShootAtSpeed(14000, m_shooter, m_verticalIndexer));
+        .whileHeld(new ShootAtSpeed(14000, m_shooter, m_verticalIndexer));
 
     new JoystickButton(m_driverController, Button.kB.value)
-        .whenPressed(() -> new ShootAtSpeed(20000, m_shooter, m_verticalIndexer));
+        .whileHeld(new ShootAtSpeed(20000, m_shooter, m_verticalIndexer));
 
 
 
     //***** Operator Controls ***********/
     new JoystickButton(m_operatorController, Button.kX.value)
-        .whenPressed(() -> new IntakeABall(m_intake));
+        .whileHeld(new IntakeABall(m_intake));
   }
 
 
