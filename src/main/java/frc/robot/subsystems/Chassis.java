@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,6 +34,7 @@ public class Chassis extends SubsystemBase {
    */
   public Chassis() {
     initializeDriveTrain();
+    m_gyro.reset();
   }
 
     /**
@@ -42,7 +44,9 @@ public class Chassis extends SubsystemBase {
    * @param rot the commanded rotation
    */
   public void arcadeDrive(double fwd, double rot) {
-      m_robotDrive.arcadeDrive(-1.0 * getEnhancedJoystickInput(fwd), 0.5 * getEnhancedJoystickInput(rot));
+      m_robotDrive.arcadeDrive(-1.0 * getEnhancedJoystickInput(fwd), getEnhancedJoystickInput(rot));
+      SmartDashboard.putData("Gyro", m_gyro);
+
   }
 
   /**

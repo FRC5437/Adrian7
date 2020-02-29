@@ -44,7 +44,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void rotate(double rotation_rate){
-    m_turretMotor.set(ControlMode.PercentOutput, rotation_rate);
+    m_turretMotor.set(ControlMode.PercentOutput, rotation_rate * 0.5);
   }
 
   @Override

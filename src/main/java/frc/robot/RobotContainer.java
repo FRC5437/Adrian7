@@ -71,7 +71,6 @@ public class RobotContainer {
   public RobotContainer() {
     m_tableInstance = NetworkTableInstance.getDefault();
     initializeNetworkTables();
-
     configureButtonBindings();
 
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
