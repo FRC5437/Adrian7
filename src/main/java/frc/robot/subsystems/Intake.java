@@ -26,10 +26,12 @@ public class Intake extends SubsystemBase {
 
   public void raiseIntake(){
     //TODO use position encoders
+    
   }
 
   public void lowerIntake(){
     //TODO use position encoders
+
   }
 
   public void ingest(){

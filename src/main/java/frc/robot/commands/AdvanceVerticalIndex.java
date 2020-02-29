@@ -8,26 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.VerticalIndexer;
 
-public class ShootAtSpeed extends CommandBase {
-  final double indexerBeltSpeed = 0.5;
-  final int tolerance = 500;
-
-  int m_target_speed;
-  Shooter m_shooter;
+public class AdvanceVerticalIndex extends CommandBase {
   VerticalIndexer m_indexer;
-
   /**
-   * Creates a new ShootAtSpeed.
+   * Creates a new AdvanceVerticalIndex.
    */
-  public ShootAtSpeed(int speed, Shooter shooter, VerticalIndexer indexer) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter, indexer);
-    m_target_speed = speed;
-    m_shooter = shooter;
+  public AdvanceVerticalIndex(VerticalIndexer indexer) {
     m_indexer = indexer;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(indexer);
   }
 
   // Called when the command is initially scheduled.
@@ -37,23 +28,14 @@ public class ShootAtSpeed extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {  
-      int currentSpeed = m_shooter.getCurrentSpeed();
-      m_shooter.setSpeed(m_target_speed);
-      if (Math.abs(m_target_speed - currentSpeed) < tolerance){
-        //we are close enough to target velocity so shoot the ball!
-        m_indexer.activate();
-      } else {
-        //we are out of tolerance for the shooter velocity so wait for it
-        m_indexer.deactivate();
-      }
+  public void execute() {
+    m_indexer.activate();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stop();
-    m_indexer.deactivate();
+    m_indexer.stop();
   }
 
   // Returns true when the command should end.

@@ -36,6 +36,11 @@ public class Shooter extends SubsystemBase {
     m_shooterMotor.set(ControlMode.Velocity, targetSpeed);
   }
 
+  public void stop(){
+    m_shooterMotor.set(ControlMode.Velocity, 0.0);
+
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

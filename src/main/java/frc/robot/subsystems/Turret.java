@@ -10,37 +10,48 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
+  private final double m_kP = 2.0;
   private final WPI_TalonSRX m_turretMotor = new WPI_TalonSRX(Constants.TURRET_MOTOR_ID);
+  private final NetworkTableInstance m_tableInstance;
+  private NetworkTable m_limelight;
+
 
   /**
    * Creates a new Turret.
    */
   public Turret() {
+    m_tableInstance = NetworkTableInstance.getDefault();
+     m_limelight = m_tableInstance.getTable("limelight");
+     
+  }
 
+  public double getTargetArea(){
+    return m_limelight.getEntry("ta").getDouble(0.0);
   }
 
   public void trackCameraTarget(){
-    //TODO - use the limelight target info to adjust the turret toward the target
-    //ensure limits to rotation are enforced!
-    //use Network Tables to get the limelight info
+    //TODO ensure limits to rotation are enforced!
+    boolean foundTarget = m_limelight.getEntry("tv").getBoolean(false);
+    double degreesFromTarget = m_limelight.getEntry("tx").getDouble(0.0);
+    if (foundTarget){
+      if (Math.abs(degreesFromTarget) > 1.0 ){
+        m_turretMotor.set(ControlMode.PercentOutput, degreesFromTarget * m_kP);
+      } else {
+        m_turretMotor.set(ControlMode.PercentOutput, 0.0);
+      }
+    } else {
+      m_turretMotor.set(ControlMode.PercentOutput, 0.0);
+    }
   }
 
-  //TODO - figure out if we even need 3d target info this year - the distance can be useful
-  //in a few auto cases to determine field position
-  public void limelight3dTest() {
-    //final double[] camtran = limelight3dTransposeArray.getDoubleArray(new double[] {});
-    //final double zValueFromTarget = camtran[2];
-
- //   if (zValueFromTarget < -60.0) {
-      //m_robotDrive.arcadeDrive(0.6, 0.0);
-//    } else {
-      //System.out.println(zValueFromTarget);
-      //m_robotDrive.arcadeDrive(0.0, 0.0);
- //   }
+  public void stop(){
+    m_turretMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
   public void rotate(double rotation_rate){

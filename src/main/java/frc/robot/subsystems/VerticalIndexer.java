@@ -27,7 +27,7 @@ public class VerticalIndexer extends SubsystemBase {
     m_feederMotor.set(ControlMode.PercentOutput, 0.5);
   }
 
-  public void deactivate(){
+  public void stop(){
     m_feederMotor.set(ControlMode.PercentOutput, 0.0);
   }
 

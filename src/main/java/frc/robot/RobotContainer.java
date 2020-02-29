@@ -15,22 +15,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Auto10Ball;
-import frc.robot.commands.Auto3Ball;
-import frc.robot.commands.Auto5Ball;
-import frc.robot.commands.Auto6Ball;
-import frc.robot.commands.Auto8Ball;
-import frc.robot.commands.AutoChaosMonkey;
-import frc.robot.commands.DriveRobot;
-import frc.robot.commands.IntakeABall;
-import frc.robot.commands.RotateTurret;
-import frc.robot.commands.ShootAtSpeed;
-import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.HorizontalIndexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.VerticalIndexer;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -60,7 +46,6 @@ public class RobotContainer {
   private final NetworkTableInstance m_tableInstance;
 
   private NetworkTableEntry m_fieldSpecifiedColorName = null;
-  private NetworkTableEntry m_limelight3dTransposeArray = null;
   private NetworkTableEntry m_colorSensorValue = null;
 
 
@@ -92,8 +77,7 @@ public class RobotContainer {
   private void initializeNetworkTables() {
     NetworkTable fmsTable = m_tableInstance.getTable("FMSInfo");
     m_fieldSpecifiedColorName = fmsTable.getEntry("GameSpecificMessage");
-    NetworkTable limelightTable = m_tableInstance.getTable("limelight");
-    m_limelight3dTransposeArray = limelightTable.getEntry("camtran");
+  
     NetworkTable colorSensorTable = m_tableInstance.getTable("ColorSensor");
     m_colorSensorValue = colorSensorTable.getEntry("sensorData");
   }
@@ -110,24 +94,29 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_chassis.setMaxOutput(0.5))
         .whenReleased(() -> m_chassis.setMaxOutput(1));
-
+        
     new JoystickButton(m_driverController, Button.kX.value)
-        .whileHeld(new ShootAtSpeed(17000, m_shooter, m_verticalIndexer));
-
-    new JoystickButton(m_driverController, Button.kY.value)
-        .whileHeld(new ShootAtSpeed(17500, m_shooter, m_verticalIndexer));
-
-    new JoystickButton(m_driverController, Button.kA.value)
-        .whileHeld(new ShootAtSpeed(14000, m_shooter, m_verticalIndexer));
-
-    new JoystickButton(m_driverController, Button.kB.value)
-        .whileHeld(new ShootAtSpeed(20000, m_shooter, m_verticalIndexer));
+        .whileHeld(new IntakeABall(m_intake));
+    
+    new JoystickButton(m_operatorController, Button.kY.value)
+        .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));
 
 
 
     //***** Operator Controls ***********/
+    
+
     new JoystickButton(m_operatorController, Button.kX.value)
-        .whileHeld(new IntakeABall(m_intake));
+        .whileHeld(new ShootAtSpeed(17000, m_shooter, m_verticalIndexer));
+
+    new JoystickButton(m_operatorController, Button.kY.value)
+        .whileHeld(new ShootAtSpeed(17500, m_shooter, m_verticalIndexer));
+
+    new JoystickButton(m_operatorController, Button.kA.value)
+        .whileHeld(new AimAtLimelightTarget(m_turret));
+
+    new JoystickButton(m_operatorController, Button.kB.value)
+        .whileHeld(new ShootDynamic(m_shooter, m_verticalIndexer, m_turret));
   }
 
 
