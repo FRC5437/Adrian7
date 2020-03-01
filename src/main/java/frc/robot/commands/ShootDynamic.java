@@ -52,7 +52,7 @@ public class ShootDynamic extends CommandBase {
 
   private int getSpeedForArea(double area){
     //the smaller the area the higher the speed should be
-    double kP = 100.0;
+    double kP = 500.0;
     int maxSpeed = 20000;
     int calculatedSpeed = maxSpeed - (int)(kP * area);
     return calculatedSpeed;

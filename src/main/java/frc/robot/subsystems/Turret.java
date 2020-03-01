@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
-  private final double m_kP = 2.0;
+  private final double m_kP = 10.0;
   private final double m_tolerance = 1.0;
   private final WPI_TalonSRX m_turretMotor = new WPI_TalonSRX(Constants.TURRET_MOTOR_ID);
   private final NetworkTableInstance m_tableInstance;
@@ -28,7 +28,7 @@ public class Turret extends SubsystemBase {
    */
   public Turret() {
     m_tableInstance = NetworkTableInstance.getDefault();
-     m_limelight = m_tableInstance.getTable("limelight");
+     m_limelight = m_tableInstance.getTable("limelight-shooter");
      
   }
 
@@ -63,6 +63,10 @@ public class Turret extends SubsystemBase {
   }
 
   public void rotate(double rotation_rate){
+    //add a deadband
+    if (Math.abs(rotation_rate) < 0.05){
+      rotation_rate = 0.0;
+    }
     m_turretMotor.set(ControlMode.PercentOutput, rotation_rate * 0.5);
   }
 

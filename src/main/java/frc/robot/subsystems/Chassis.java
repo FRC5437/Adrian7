@@ -44,7 +44,7 @@ public class Chassis extends SubsystemBase {
    * @param rot the commanded rotation
    */
   public void arcadeDrive(double fwd, double rot) {
-      m_robotDrive.arcadeDrive(-1.0 * getEnhancedJoystickInput(fwd), getEnhancedJoystickInput(rot));
+      m_robotDrive.arcadeDrive(-1.0 * getEnhancedJoystickInput(fwd), getEnhancedJoystickInput(rot) * -1.0);
       SmartDashboard.putData("Gyro", m_gyro);
 
   }

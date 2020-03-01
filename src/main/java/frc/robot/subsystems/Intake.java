@@ -26,17 +26,17 @@ public class Intake extends SubsystemBase {
 
   public boolean isLowered(){
     //TODO determine the right encoder value and sign
-    return m_intakePositionMotor.getSelectedSensorPosition() < -200;
+    return m_intakePositionMotor.getSelectedSensorPosition() > 600;
   }
 
   public boolean isRaised(){
     //TODO needs calibration
-    return m_intakePositionMotor.getSelectedSensorPosition() > -30;
+    return m_intakePositionMotor.getSelectedSensorPosition() < 300;
   }
 
   public void raiseIntake(){
     //TODO use position encoders
-    if(isLowered()){
+    if(!isRaised()){
       m_intakePositionMotor.set(ControlMode.PercentOutput, 0.9);
     } else {
       m_intakePositionMotor.set(ControlMode.PercentOutput, 0.0);
@@ -45,7 +45,7 @@ public class Intake extends SubsystemBase {
 
   public void lowerIntake(){
     //TODO use position encoders
-    if(isRaised()){
+    if(!isLowered()){
       m_intakePositionMotor.set(ControlMode.PercentOutput, -0.9);
     } else {
       m_intakePositionMotor.set(ControlMode.PercentOutput, 0.0);

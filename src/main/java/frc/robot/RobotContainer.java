@@ -61,11 +61,12 @@ public class RobotContainer {
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
     m_turret.setDefaultCommand(new RotateTurret(m_turret, m_operatorController));
     initializeAutoChooser();
+    m_chassis.setMaxOutput(0.5);
   }
 
   private void initializeAutoChooser() {
     m_autoChooser = new SendableChooser<>();
-    m_autoChooser.setDefaultOption("3 Ball Auto", new Auto3Ball());
+    m_autoChooser.setDefaultOption("3 Ball Auto", new Auto3BallSequence(m_shooter, m_verticalIndexer, m_turret, m_intake));
     m_autoChooser.addOption("6 Ball Auto", new Auto6Ball());
     m_autoChooser.addOption("5 Ball Sneak Auto", new Auto5Ball());
     m_autoChooser.addOption("8 Ball Auto", new Auto8Ball());
@@ -92,13 +93,13 @@ public class RobotContainer {
     //******* Driver Controls ************/
     // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
-        .whenPressed(() -> m_chassis.setMaxOutput(0.5))
-        .whenReleased(() -> m_chassis.setMaxOutput(1));
+        .whenPressed(() -> m_chassis.setMaxOutput(1.0))
+        .whenReleased(() -> m_chassis.setMaxOutput(0.5));
         
     new JoystickButton(m_driverController, Button.kX.value)
         .whileHeld(new IntakeABall(m_intake));
     
-    new JoystickButton(m_operatorController, Button.kY.value)
+    new JoystickButton(m_driverController, Button.kY.value)
         .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));
 
 
