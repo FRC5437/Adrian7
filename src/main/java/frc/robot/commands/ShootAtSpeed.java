@@ -19,6 +19,8 @@ public class ShootAtSpeed extends CommandBase {
   Shooter m_shooter;
   VerticalIndexer m_indexer;
 
+  int m_empty_counter = 0;
+
   /**
    * Creates a new ShootAtSpeed.
    */
@@ -33,6 +35,7 @@ public class ShootAtSpeed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_empty_counter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +48,7 @@ public class ShootAtSpeed extends CommandBase {
         m_indexer.activate();
       } else {
         //we are out of tolerance for the shooter velocity so wait for it
-        m_indexer.deactivate();
+        m_indexer.stop();
       }
   }
 
@@ -53,12 +56,21 @@ public class ShootAtSpeed extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shooter.stop();
-    m_indexer.deactivate();
+    m_indexer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    boolean all_done = false;
+    if (m_indexer.isEmpty()){
+      m_empty_counter += 1;
+    } else {
+      m_empty_counter = 0;
+    }
+    if (m_empty_counter > 10){
+      all_done = true;
+    }
+    return all_done;
   }
 }

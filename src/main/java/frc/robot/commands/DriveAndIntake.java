@@ -8,17 +8,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Intake;
 
-public class IntakeABall extends CommandBase {
-  private final Intake m_intake;
+public class DriveAndIntake extends CommandBase {
+  Chassis m_chassis;
+  Intake m_intake;
   /**
-   * Creates a new IntakeABall.
+   * Creates a new DriveAndIntake.
    */
-  public IntakeABall(Intake intake) {
+  public DriveAndIntake(Chassis chassis, Intake intake) {
+    m_chassis = chassis;
     m_intake = intake;
-    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(chassis, intake);
   }
 
   // Called when the command is initially scheduled.
@@ -29,13 +32,12 @@ public class IntakeABall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.ingest();
+    m_chassis.arcadeDrive(0.3, 0.0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.stop();
   }
 
   // Returns true when the command should end.

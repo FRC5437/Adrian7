@@ -10,11 +10,17 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class VerticalIndexer extends SubsystemBase {
   private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.VERTICAL_FEEDER_MOTOR_ID);
+
+  // NOTE these sensors read true when empty and false when detecting a ball
+  private final DigitalInput m_verticalIndexerTopSensor = new DigitalInput(Constants.DIO_PORT_TOP_VERTICAL_BALL_SENSOR);
+  private final DigitalInput m_verticalIndexerBottomSensor = new DigitalInput(Constants.DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR);
+  private final DigitalInput m_middleIndexerSensor = new DigitalInput(Constants.DIO_PORT_MIDDLE_BALL_SENSOR);
 
   /**
    * Creates a new VerticalIndexer.
@@ -29,6 +35,14 @@ public class VerticalIndexer extends SubsystemBase {
 
   public void stop(){
     m_feederMotor.set(ControlMode.PercentOutput, 0.0);
+  }
+
+  public boolean isEmpty(){
+    return m_verticalIndexerTopSensor.get() && m_verticalIndexerBottomSensor.get() && m_middleIndexerSensor.get(); 
+  }
+
+  public boolean hasABall(){
+    return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get() ||  !m_middleIndexerSensor.get();
   }
 
   @Override

@@ -24,14 +24,32 @@ public class Intake extends SubsystemBase {
 
   }
 
+  public boolean isLowered(){
+    //TODO determine the right encoder value and sign
+    return m_intakePositionMotor.getSelectedSensorPosition() < -200;
+  }
+
+  public boolean isRaised(){
+    //TODO needs calibration
+    return m_intakePositionMotor.getSelectedSensorPosition() > -30;
+  }
+
   public void raiseIntake(){
     //TODO use position encoders
-    
+    if(isLowered()){
+      m_intakePositionMotor.set(ControlMode.PercentOutput, 0.9);
+    } else {
+      m_intakePositionMotor.set(ControlMode.PercentOutput, 0.0);
+    }
   }
 
   public void lowerIntake(){
     //TODO use position encoders
-
+    if(isRaised()){
+      m_intakePositionMotor.set(ControlMode.PercentOutput, -0.9);
+    } else {
+      m_intakePositionMotor.set(ControlMode.PercentOutput, 0.0);
+    }
   }
 
   public void ingest(){

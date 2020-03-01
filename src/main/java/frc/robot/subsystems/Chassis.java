@@ -49,6 +49,10 @@ public class Chassis extends SubsystemBase {
 
   }
 
+  public void driveDistance(double distanceEncoderTicks){
+    
+  }
+
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
@@ -137,8 +141,8 @@ public class Chassis extends SubsystemBase {
 
     // set the inversion for the drive motors at the TalonFX level
     //WARNING this means do not let the WPI Differential Drive invert the right side
-    m_rightMaster.setInverted(true);
-    m_leftMaster.setInverted(false);
+    m_rightMaster.setInverted(false);
+    m_leftMaster.setInverted(true);
 
     m_rightMaster.configOpenloopRamp(0.3);
     m_leftMaster.configOpenloopRamp(0.3);
