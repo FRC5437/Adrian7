@@ -45,6 +45,10 @@ public class VerticalIndexer extends SubsystemBase {
     return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get() ||  !m_middleIndexerSensor.get();
   }
 
+  public boolean has3Balls(){
+    return !m_verticalIndexerTopSensor.get() && !m_verticalIndexerBottomSensor.get() && !m_middleIndexerSensor.get();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

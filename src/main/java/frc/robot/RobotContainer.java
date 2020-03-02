@@ -66,7 +66,7 @@ public class RobotContainer {
 
   private void initializeAutoChooser() {
     m_autoChooser = new SendableChooser<>();
-    m_autoChooser.setDefaultOption("3 Ball Auto", new Auto3BallSequence(m_shooter, m_verticalIndexer, m_turret, m_intake));
+    m_autoChooser.setDefaultOption("3 Ball Auto", new Auto3BallSequence(m_shooter, m_verticalIndexer, m_turret, m_intake, m_chassis));
     m_autoChooser.addOption("6 Ball Auto", new Auto6Ball());
     m_autoChooser.addOption("5 Ball Sneak Auto", new Auto5Ball());
     m_autoChooser.addOption("8 Ball Auto", new Auto8Ball());

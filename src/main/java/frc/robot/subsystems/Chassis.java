@@ -37,6 +37,9 @@ public class Chassis extends SubsystemBase {
     m_gyro.reset();
   }
 
+  public void stop(){
+    m_robotDrive.arcadeDrive(0.0, 0.0);
+  }
     /**
    * Drives the robot using arcade controls.
    *
