@@ -40,5 +40,6 @@ public final class Constants {
 
   public static final int SPEED_FOR_INITIATION_LINE = 17000;
   public static final int SPEED_FOR_END_OF_TRENCH_RUN = 17500;
+public static final double TELEOP_MAX_DRIVE_POWER = 0.6;
 
 }

@@ -61,7 +61,6 @@ public class RobotContainer {
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
     m_turret.setDefaultCommand(new RotateTurret(m_turret, m_operatorController));
     initializeAutoChooser();
-    m_chassis.setMaxOutput(0.5);
   }
 
   private void initializeAutoChooser() {
@@ -94,7 +93,7 @@ public class RobotContainer {
     // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_chassis.setMaxOutput(1.0))
-        .whenReleased(() -> m_chassis.setMaxOutput(0.5));
+        .whenReleased(() -> m_chassis.setMaxOutput(Constants.TELEOP_MAX_DRIVE_POWER));
         
     new JoystickButton(m_driverController, Button.kX.value)
         .whileHeld(new IntakeABall(m_intake));
@@ -131,4 +130,8 @@ public class RobotContainer {
     m_autoCommand = m_autoChooser.getSelected();
     return m_autoCommand;
   }
+
+public void setMaxDrivePower() {
+  m_chassis.setMaxOutput(Constants.TELEOP_MAX_DRIVE_POWER);
+}
 }

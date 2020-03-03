@@ -56,6 +56,10 @@ public class Chassis extends SubsystemBase {
     
   }
 
+  public void driveAuto(double fwd, double rot){
+    m_robotDrive.arcadeDrive(fwd, rot);
+  }
+
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
@@ -147,13 +151,15 @@ public class Chassis extends SubsystemBase {
     m_rightMaster.setInverted(false);
     m_leftMaster.setInverted(true);
 
-    m_rightMaster.configOpenloopRamp(0.3);
-    m_leftMaster.configOpenloopRamp(0.3);
+    m_rightMaster.configOpenloopRamp(0.4);
+    m_leftMaster.configOpenloopRamp(0.4);
 
     m_rightMaster.setSensorPhase(true);
     m_leftMaster.setSensorPhase(true);
 
     m_robotDrive.setRightSideInverted(false);
+
+    m_robotDrive.setSafetyEnabled(false);
 
     //setup encoders
     m_leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
