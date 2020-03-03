@@ -68,7 +68,7 @@ public class ShootAtSpeed extends CommandBase {
     } else {
       m_empty_counter = 0;
     }
-    if (m_empty_counter > 10){
+    if (m_empty_counter > 30){
       all_done = true;
     }
     return all_done;

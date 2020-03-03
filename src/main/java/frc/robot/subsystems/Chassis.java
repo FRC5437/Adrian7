@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -49,7 +49,6 @@ public class Chassis extends SubsystemBase {
   public void arcadeDrive(double fwd, double rot) {
       m_robotDrive.arcadeDrive(-1.0 * getEnhancedJoystickInput(fwd), getEnhancedJoystickInput(rot) * -1.0);
       SmartDashboard.putData("Gyro", m_gyro);
-
   }
 
   public void driveDistance(double distanceEncoderTicks){
