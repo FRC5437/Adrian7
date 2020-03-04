@@ -61,6 +61,7 @@ public final class Constants {
   public static final double WHEEL_ROTATIONS_PER_INCH = 1.0/(3.14159 * WHEEL_DIAMETER_INCHES);
   public static final double WHEEL_ROTATIONS_PER_DEGREE_TURN = 0.0166667;
 public static final double WHEEL_GEAR_RATIO = 15.31;
-public static final int TALON_INDEXER_TOLERANCE = 40;
+public static final int TALON_INDEXER_TOLERANCE = 50;
+public static final double TALON_INDEXER_P = 5.0;
 
 }

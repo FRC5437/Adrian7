@@ -33,7 +33,7 @@ public class RobotContainer {
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final HorizontalIndexer m_horizontalIndexer = new HorizontalIndexer();
-  private final VerticalIndexer m_verticalIndexer = new VerticalIndexer(m_horizontalIndexer, m_intake);
+  private final VerticalIndexer m_verticalIndexer = new VerticalIndexer();
 
   private SendableChooser<Command> m_autoChooser;
   private Command m_autoCommand;
@@ -103,7 +103,7 @@ public class RobotContainer {
         .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));
 
     new JoystickButton(m_driverController, Button.kA.value)
-        .whenPressed(new DriveDistance(m_chassis, 120.0));
+        .whileHeld(new AdvanceHorizontalIndexer(m_horizontalIndexer));
 
     new JoystickButton(m_driverController, Button.kB.value)
         .whenPressed(new AdvanceVerticalIndex(m_verticalIndexer));

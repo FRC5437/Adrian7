@@ -23,15 +23,10 @@ public class VerticalIndexer extends SubsystemBase {
   private final DigitalInput m_verticalIndexerTopSensor = new DigitalInput(Constants.DIO_PORT_TOP_VERTICAL_BALL_SENSOR);
   private final DigitalInput m_verticalIndexerBottomSensor = new DigitalInput(Constants.DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR);
 
-  Intake m_intake;
-  HorizontalIndexer m_horizontalIndexer;
-
   /**
    * Creates a new VerticalIndexer.
    */
-  public VerticalIndexer(HorizontalIndexer horizontalIndexer, Intake intake) {
-    m_intake = intake;
-    m_horizontalIndexer = horizontalIndexer;
+  public VerticalIndexer() {
     initializeMotorControl();
   }
 
@@ -48,19 +43,19 @@ public class VerticalIndexer extends SubsystemBase {
   }
 
   public boolean isEmpty(){
-    return m_verticalIndexerTopSensor.get() && m_verticalIndexerBottomSensor.get() && m_horizontalIndexer.isEmpty() && m_intake.isEmpty(); 
+    return m_verticalIndexerTopSensor.get() && m_verticalIndexerBottomSensor.get(); 
   }
 
   public boolean hasABall(){
-    return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get() ||  m_horizontalIndexer.hasABall() || m_intake.hasABall();
+    return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get();
   }
 
   public int getCurrentPosition(){
-    return m_feederMotor.getSelectedSensorPosition();
+    return m_feederMotor.getSelectedSensorPosition(Constants.TALON_PID_LOOP_INDEX);
   }
 
   public boolean onTarget(){
-    return m_feederMotor.getClosedLoopError() < Constants.TALON_INDEXER_TOLERANCE;
+    return Math.abs(m_feederMotor.getClosedLoopError()) < Constants.TALON_INDEXER_TOLERANCE;
   }
 
   public void advanceBall(int targetPosition){
@@ -69,11 +64,11 @@ public class VerticalIndexer extends SubsystemBase {
 
   private void initializeMotorControl() {
     m_feederMotor.configFactoryDefault();
+    m_feederMotor.setSensorPhase(true);
     m_feederMotor.setInverted(false);
     m_feederMotor.configOpenloopRamp(0.4);
-    m_feederMotor.setSensorPhase(false);
     //setup encoders
-    m_feederMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    m_feederMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
     m_feederMotor.configNeutralDeadband(0.001, Constants.TALON_TIMEOUT_MS);
     setupTalonForMotionMagic(m_feederMotor);
   }
@@ -91,16 +86,16 @@ public class VerticalIndexer extends SubsystemBase {
 		/* Set Motion Magic gains in slot0 - see documentation */
 		talon.selectProfileSlot(Constants.TALON_SLOT_INDEX, Constants.TALON_PID_LOOP_INDEX);
 		talon.config_kF(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_F, Constants.TALON_TIMEOUT_MS);
-		talon.config_kP(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_P, Constants.TALON_TIMEOUT_MS);
+		talon.config_kP(Constants.TALON_SLOT_INDEX, Constants.TALON_INDEXER_P, Constants.TALON_TIMEOUT_MS);
 		talon.config_kI(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_I, Constants.TALON_TIMEOUT_MS);
 		talon.config_kD(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_D, Constants.TALON_TIMEOUT_MS);
 
 		/* Set acceleration and vcruise velocity - see documentation */
-		talon.configMotionCruiseVelocity(15000, Constants.TALON_TIMEOUT_MS);
+		talon.configMotionCruiseVelocity(10000, Constants.TALON_TIMEOUT_MS);
     talon.configMotionAcceleration(6000, Constants.TALON_TIMEOUT_MS);
     
     //try middle of the road smoothing TODO add constant
-    talon.configMotionSCurveStrength(4);
+    talon.configMotionSCurveStrength(0);
 
 		/* Zero the sensor once on robot boot up */
 		talon.setSelectedSensorPosition(0, Constants.TALON_PID_LOOP_INDEX, Constants.TALON_TIMEOUT_MS);

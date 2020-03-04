@@ -65,6 +65,9 @@ public class Intake extends SubsystemBase {
   }
 
   public void drive(double power){
+    if (Math.abs(power) < 0.1){
+      power = 0;
+    }
     m_intakeBeltMotor.set(ControlMode.PercentOutput, power);
   }
 

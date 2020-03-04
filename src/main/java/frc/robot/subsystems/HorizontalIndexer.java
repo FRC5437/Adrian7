@@ -29,11 +29,11 @@ public class HorizontalIndexer extends SubsystemBase {
   }
 
   public void activate(){
-    m_feederMotor.set(ControlMode.PercentOutput, 0.5);
+    m_feederMotor.set(ControlMode.PercentOutput, -0.7);
   }
 
   public void backup(){
-    m_feederMotor.set(ControlMode.PercentOutput, -0.5);
+    m_feederMotor.set(ControlMode.PercentOutput, 0.7);
   }
 
   public void stop(){
