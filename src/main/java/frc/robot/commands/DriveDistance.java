@@ -13,6 +13,8 @@ import frc.robot.subsystems.Chassis;
 public class DriveDistance extends CommandBase {
   Chassis m_chassis;
   int m_targetPosition;
+  int m_counter = 0;
+
   /**
    * Creates a new DriveDistance.
    */
@@ -26,6 +28,7 @@ public class DriveDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_counter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +45,14 @@ public class DriveDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_chassis.onTarget() ){
+      m_counter += 1;
+    }
+    if (m_counter > 10){
+      m_chassis.stop();
+      return true;
+    } else {
+      return false;
+    }
   }
 }

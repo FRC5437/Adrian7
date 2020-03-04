@@ -57,6 +57,10 @@ public class Chassis extends SubsystemBase {
     
   }
 
+  public boolean onTarget(){
+    return m_leftMaster.getClosedLoopError() < Constants.TALON_DRIVE_TOLERANCE;
+  }
+
   public int convertInchesToTarget(double distanceInches){
     int distanceInTicks = (int)(Constants.WHEEL_ROTATIONS_PER_INCH * distanceInches * Constants.K_UNITS_PER_REVOLUTION);
     return m_leftMaster.getSelectedSensorPosition() + distanceInTicks;

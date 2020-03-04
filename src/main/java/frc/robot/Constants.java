@@ -23,6 +23,7 @@ public final class Constants {
   public static final double TALON_DRIVE_F = 0.0;
   public static final double TALON_DRIVE_I_ZONE = 0.0;
   public static final double TALON_DRIVE_PEAK_OUTPUT = 1.0;
+  public static final int TALON_DRIVE_TOLERANCE = 20;
 
 
   public static final int TALON_PID_LOOP_INDEX = 0;

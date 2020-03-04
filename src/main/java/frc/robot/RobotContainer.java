@@ -103,6 +103,9 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kY.value)
         .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));
 
+    new JoystickButton(m_driverController, Button.kA.value)
+        .whileHeld(new DriveDistance(m_chassis, 10.0));
+
 
 
     //***** Operator Controls ***********/
