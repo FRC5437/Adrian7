@@ -25,11 +25,11 @@ public class Chassis extends SubsystemBase {
 
   private final AHRS m_gyro = new AHRS(Port.kMXP);
 
-  private final WPI_TalonFX m_leftMaster = new WPI_TalonFX(Constants.LEFT_UPPER_DRIVE_ID);
-  private final WPI_TalonFX m_leftSlave = new WPI_TalonFX(Constants.LEFT_LOWER_DRIVE_ID);
-  private final WPI_TalonFX m_rightMaster = new WPI_TalonFX(Constants.RIGHT_UPPER_DRIVE_ID);
-  private final WPI_TalonFX m_rightSlave = new WPI_TalonFX(Constants.RIGHT_LOWER_DRIVE_ID);
-  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMaster, m_rightMaster);
+  private final WPI_TalonFX m_rightMasterMotor = new WPI_TalonFX(Constants.LEFT_UPPER_DRIVE_ID);
+  private final WPI_TalonFX m_rightSlaveMotor = new WPI_TalonFX(Constants.LEFT_LOWER_DRIVE_ID);
+  private final WPI_TalonFX m_leftMasterMotor = new WPI_TalonFX(Constants.RIGHT_UPPER_DRIVE_ID);
+  private final WPI_TalonFX m_leftSlaveMotor = new WPI_TalonFX(Constants.RIGHT_LOWER_DRIVE_ID);
+  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_rightMasterMotor, m_leftMasterMotor);
   
   /**
    * Creates a new ExampleSubsystem.
@@ -58,24 +58,25 @@ public class Chassis extends SubsystemBase {
   }
 
   public boolean onTarget(){
-    return m_leftMaster.getClosedLoopError() < Constants.TALON_DRIVE_TOLERANCE;
+    return m_rightMasterMotor.getClosedLoopError() < Constants.TALON_DRIVE_TOLERANCE;
   }
 
   public int convertInchesToTarget(double distanceInches){
-    int distanceInTicks = (int)(Constants.WHEEL_ROTATIONS_PER_INCH * distanceInches * Constants.K_UNITS_PER_REVOLUTION);
-    return m_leftMaster.getSelectedSensorPosition() + distanceInTicks;
+    int distanceInTicks = (int)(Constants.WHEEL_GEAR_RATIO * Constants.WHEEL_ROTATIONS_PER_INCH * distanceInches * Constants.K_UNITS_PER_REVOLUTION);
+    return m_rightMasterMotor.getSelectedSensorPosition() + distanceInTicks;
   }
 
   public void driveAuto(int targetPos){
-    m_leftMaster.set(TalonFXControlMode.MotionMagic, targetPos);
+    m_rightMasterMotor.set(TalonFXControlMode.MotionMagic, targetPos);
+    m_leftMasterMotor.set(TalonFXControlMode.MotionMagic, targetPos);
   }
 
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
   public void resetEncoders() {
-    m_leftMaster.setSelectedSensorPosition(0);
-    m_rightMaster.setSelectedSensorPosition(0);
+    m_rightMasterMotor.setSelectedSensorPosition(0);
+    m_leftMasterMotor.setSelectedSensorPosition(0);
   }
 
   /**
@@ -84,7 +85,7 @@ public class Chassis extends SubsystemBase {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (m_leftMaster.getSelectedSensorPosition() + m_rightMaster.getSelectedSensorPosition()) / 2.0;
+    return (m_rightMasterMotor.getSelectedSensorPosition() + m_leftMasterMotor.getSelectedSensorPosition()) / 2.0;
   }
 
   /**
@@ -145,40 +146,40 @@ public class Chassis extends SubsystemBase {
   }
 
   private void initializeDriveTrain() {
-    m_leftMaster.configFactoryDefault();
-    m_leftSlave.configFactoryDefault();
-    m_rightMaster.configFactoryDefault();
-    m_rightSlave.configFactoryDefault();
+    m_rightMasterMotor.configFactoryDefault();
+    m_rightSlaveMotor.configFactoryDefault();
+    m_leftMasterMotor.configFactoryDefault();
+    m_leftSlaveMotor.configFactoryDefault();
 
-    m_leftSlave.follow(m_leftMaster);
-    m_rightSlave.follow(m_rightMaster);
+    m_rightSlaveMotor.follow(m_rightMasterMotor);
+    m_leftSlaveMotor.follow(m_leftMasterMotor);
 
-    m_rightSlave.setInverted(InvertType.FollowMaster);
-    m_leftSlave.setInverted(InvertType.FollowMaster);
+    m_leftSlaveMotor.setInverted(InvertType.FollowMaster);
+    m_rightSlaveMotor.setInverted(InvertType.FollowMaster);
 
     // set the inversion for the drive motors at the TalonFX level
     //WARNING this means do not let the WPI Differential Drive invert the right side
-    m_rightMaster.setInverted(false);
-    m_leftMaster.setInverted(true);
+    m_leftMasterMotor.setInverted(false);
+    m_rightMasterMotor.setInverted(true);
 
-    m_rightMaster.configOpenloopRamp(0.4);
-    m_leftMaster.configOpenloopRamp(0.4);
+    m_leftMasterMotor.configOpenloopRamp(0.4);
+    m_rightMasterMotor.configOpenloopRamp(0.4);
 
-    m_rightMaster.setSensorPhase(true);
-    m_leftMaster.setSensorPhase(true);
+    m_leftMasterMotor.setSensorPhase(true);
+    m_rightMasterMotor.setSensorPhase(true);
 
     m_robotDrive.setRightSideInverted(false);
     m_robotDrive.setSafetyEnabled(false);
 
     //setup encoders
-    m_leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
-    m_rightMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
+    m_rightMasterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
+    m_leftMasterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
 
-    m_leftMaster.configNeutralDeadband(0.001, Constants.TALON_TIMEOUT_MS);
-    m_rightMaster.configNeutralDeadband(0.001, Constants.TALON_TIMEOUT_MS);
+    m_rightMasterMotor.configNeutralDeadband(0.001, Constants.TALON_TIMEOUT_MS);
+    m_leftMasterMotor.configNeutralDeadband(0.001, Constants.TALON_TIMEOUT_MS);
 
-    setupTalonForMotionMagic(m_leftMaster);
-    setupTalonForMotionMagic(m_rightMaster);
+    setupTalonForMotionMagic(m_rightMasterMotor);
+    setupTalonForMotionMagic(m_leftMasterMotor);
   }
 
   private void setupTalonForMotionMagic(WPI_TalonFX talon){

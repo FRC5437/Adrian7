@@ -32,8 +32,8 @@ public class RobotContainer {
   private final Turret m_turret = new Turret();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
-  private final VerticalIndexer m_verticalIndexer;
   private final HorizontalIndexer m_horizontalIndexer = new HorizontalIndexer();
+  private final VerticalIndexer m_verticalIndexer = new VerticalIndexer(m_horizontalIndexer, m_intake);
 
   private SendableChooser<Command> m_autoChooser;
   private Command m_autoCommand;
@@ -58,10 +58,9 @@ public class RobotContainer {
     initializeNetworkTables();
     configureButtonBindings();
 
-    m_verticalIndexer = new VerticalIndexer(m_horizontalIndexer, m_intake);
-
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
     m_turret.setDefaultCommand(new RotateTurret(m_turret, m_operatorController));
+    m_intake.setDefaultCommand(new DriveIntake(m_intake, m_driverController));
     initializeAutoChooser();
   }
 
@@ -104,9 +103,10 @@ public class RobotContainer {
         .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));
 
     new JoystickButton(m_driverController, Button.kA.value)
-        .whileHeld(new DriveDistance(m_chassis, 10.0));
+        .whenPressed(new DriveDistance(m_chassis, 120.0));
 
-
+    new JoystickButton(m_driverController, Button.kB.value)
+        .whenPressed(new AdvanceVerticalIndex(m_verticalIndexer));
 
     //***** Operator Controls ***********/
     

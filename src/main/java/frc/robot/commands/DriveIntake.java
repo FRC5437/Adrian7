@@ -7,54 +7,44 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Intake;
 
-public class DriveDistance extends CommandBase {
-  Chassis m_chassis;
-  int m_targetPosition;
-  double m_distanceInches;
-  int m_counter = 0;
+public class DriveIntake extends CommandBase {
+  private final Intake m_intake;
+  private final XboxController m_xbox;
 
   /**
-   * Creates a new DriveDistance.
+   * Creates a new DriveIntake.
    */
-  public DriveDistance(Chassis chassis, double distanceInches) {
-    m_chassis = chassis;
-    m_distanceInches = distanceInches;
+  public DriveIntake(Intake intake, XboxController xbox) {
+    m_intake = intake;
+    m_xbox = xbox;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(chassis);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_counter = 0;
-    m_targetPosition = m_chassis.convertInchesToTarget(m_distanceInches);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_chassis.driveAuto(m_targetPosition);
+    m_intake.drive(m_xbox.getY(Hand.kRight));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_chassis.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_chassis.onTarget() ){
-      m_counter += 1;
-    }
-    if (m_counter > 10){
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 }

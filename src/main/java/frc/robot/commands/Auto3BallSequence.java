@@ -25,6 +25,6 @@ public class Auto3BallSequence extends SequentialCommandGroup {
   public Auto3BallSequence(Shooter shooter, VerticalIndexer indexer, Turret turret, Intake intake, Chassis chassis) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShootAtSpeed(Constants.SPEED_FOR_INITIATION_LINE, shooter, indexer), new LowerIntake(intake)); //new DriveAndIntake(chassis, intake));
+    super(new ShootAtSpeed(Constants.SPEED_FOR_INITIATION_LINE, shooter, indexer), new LowerIntake(intake), new DriveDistance(chassis, -24.0));
   }
 }

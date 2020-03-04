@@ -16,6 +16,8 @@ public class IntakeABall extends CommandBase {
   private final Intake m_intake;
   private final HorizontalIndexer m_horizontalIndexer;
   private final VerticalIndexer m_verticalIndexer;
+
+  private boolean m_needToProcessBall = false;
   /**
    * Creates a new IntakeABall.
    */
@@ -37,6 +39,12 @@ public class IntakeABall extends CommandBase {
   @Override
   public void execute() {
     m_intake.ingest();
+    if (m_intake.hasABall()){
+      m_needToProcessBall = true;
+    }
+    if (m_needToProcessBall){
+      
+    }
   }
 
   // Called once the command ends or is interrupted.

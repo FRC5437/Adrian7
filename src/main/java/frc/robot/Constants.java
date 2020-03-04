@@ -17,7 +17,7 @@ package frc.robot;
  */
 public final class Constants {
   //GAINS for drive train
-  public static final double TALON_DRIVE_P = 0.2;
+  public static final double TALON_DRIVE_P = 0.1;
   public static final double TALON_DRIVE_I = 0.0;
   public static final double TALON_DRIVE_D = 0.0;
   public static final double TALON_DRIVE_F = 0.0;
@@ -58,7 +58,9 @@ public final class Constants {
 
   public static final double WHEEL_DIAMETER_INCHES = 8.0;
   public static final double WHEEL_SPACING_INCHES = 24.0;
-  public static final double WHEEL_ROTATIONS_PER_INCH = 0.125;
+  public static final double WHEEL_ROTATIONS_PER_INCH = 1.0/(3.14159 * WHEEL_DIAMETER_INCHES);
   public static final double WHEEL_ROTATIONS_PER_DEGREE_TURN = 0.0166667;
+public static final double WHEEL_GEAR_RATIO = 15.31;
+public static final int TALON_INDEXER_TOLERANCE = 40;
 
 }

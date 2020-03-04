@@ -12,6 +12,8 @@ import frc.robot.subsystems.VerticalIndexer;
 
 public class AdvanceVerticalIndex extends CommandBase {
   VerticalIndexer m_indexer;
+  int m_targetPosition = 0;
+  int m_counter = 0;
   /**
    * Creates a new AdvanceVerticalIndex.
    */
@@ -24,12 +26,13 @@ public class AdvanceVerticalIndex extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_targetPosition = m_indexer.getCurrentPosition() + 10000;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexer.activate();
+    m_indexer.advanceBall(m_targetPosition);
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +44,13 @@ public class AdvanceVerticalIndex extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_indexer.onTarget() ){
+      m_counter += 1;
+    }
+    if (m_counter > 10){
+      return true;
+    } else {
+      return false;
+    }  
   }
 }
