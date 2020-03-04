@@ -8,16 +8,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.HorizontalIndexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.VerticalIndexer;
 
 public class IntakeABall extends CommandBase {
   private final Intake m_intake;
+  private final HorizontalIndexer m_horizontalIndexer;
+  private final VerticalIndexer m_verticalIndexer;
   /**
    * Creates a new IntakeABall.
    */
-  public IntakeABall(Intake intake) {
+  public IntakeABall(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
     m_intake = intake;
-    addRequirements(intake);
+    m_horizontalIndexer = horizontalIndexer;
+    m_verticalIndexer = verticalIndexer;
+
+    addRequirements(intake, horizontalIndexer, verticalIndexer);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

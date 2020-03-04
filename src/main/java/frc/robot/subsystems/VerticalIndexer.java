@@ -20,17 +20,24 @@ public class VerticalIndexer extends SubsystemBase {
   // NOTE these sensors read true when empty and false when detecting a ball
   private final DigitalInput m_verticalIndexerTopSensor = new DigitalInput(Constants.DIO_PORT_TOP_VERTICAL_BALL_SENSOR);
   private final DigitalInput m_verticalIndexerBottomSensor = new DigitalInput(Constants.DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR);
-  private final DigitalInput m_middleIndexerSensor = new DigitalInput(Constants.DIO_PORT_MIDDLE_BALL_SENSOR);
+
+  Intake m_intake;
+  HorizontalIndexer m_horizontalIndexer;
 
   /**
    * Creates a new VerticalIndexer.
    */
-  public VerticalIndexer() {
-
+  public VerticalIndexer(HorizontalIndexer horizontalIndexer, Intake intake) {
+    m_intake = intake;
+    m_horizontalIndexer = horizontalIndexer;
   }
 
   public void activate(){
     m_feederMotor.set(ControlMode.PercentOutput, 0.5);
+  }
+
+  public void backup(){
+    m_feederMotor.set(ControlMode.PercentOutput, -0.5);
   }
 
   public void stop(){
@@ -38,15 +45,11 @@ public class VerticalIndexer extends SubsystemBase {
   }
 
   public boolean isEmpty(){
-    return m_verticalIndexerTopSensor.get() && m_verticalIndexerBottomSensor.get() && m_middleIndexerSensor.get(); 
+    return m_verticalIndexerTopSensor.get() && m_verticalIndexerBottomSensor.get() && m_horizontalIndexer.isEmpty() && m_intake.isEmpty(); 
   }
 
   public boolean hasABall(){
-    return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get() ||  !m_middleIndexerSensor.get();
-  }
-
-  public boolean has3Balls(){
-    return !m_verticalIndexerTopSensor.get() && !m_verticalIndexerBottomSensor.get() && !m_middleIndexerSensor.get();
+    return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get() ||  m_horizontalIndexer.hasABall() || m_intake.hasABall();
   }
 
   @Override

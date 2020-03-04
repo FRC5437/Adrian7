@@ -28,6 +28,7 @@ public final class Constants {
   public static final int SHOOTER_MOTOR_ID = 42;
   public static final int TURRET_MOTOR_ID = 55;
   public static final int VERTICAL_FEEDER_MOTOR_ID = 54;
+  public static final int HORIZONTAL_FEEDER_MOTOR_ID = 53;
   public static final int INTAKE_POSITION_MOTOR_ID = 22;
   public static final int INTAKE_BELT_MOTOR_ID = 21;
 
@@ -36,10 +37,14 @@ public final class Constants {
 
   public static final int DIO_PORT_TOP_VERTICAL_BALL_SENSOR = 0;
   public static final int DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR = 1;
-  public static final int DIO_PORT_MIDDLE_BALL_SENSOR = 2;
+  public static final int DIO_PORT_REAR_HORIZONTAL_BALL_SENSOR = 2;
+  public static final int DIO_PORT_FRONT_HORIZONTAL_BALL_SENSOR = 3;
+  public static final int DIO_PORT_INTAKE_BALL_SENSOR = 4;
+  
+
 
   public static final int SPEED_FOR_INITIATION_LINE = 17000;
   public static final int SPEED_FOR_END_OF_TRENCH_RUN = 17500;
-public static final double TELEOP_MAX_DRIVE_POWER = 0.6;
+  public static final double TELEOP_MAX_DRIVE_POWER = 0.6;
 
 }

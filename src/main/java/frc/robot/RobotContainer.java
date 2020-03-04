@@ -32,7 +32,7 @@ public class RobotContainer {
   private final Turret m_turret = new Turret();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
-  private final VerticalIndexer m_verticalIndexer = new VerticalIndexer();
+  private final VerticalIndexer m_verticalIndexer;
   private final HorizontalIndexer m_horizontalIndexer = new HorizontalIndexer();
 
   private SendableChooser<Command> m_autoChooser;
@@ -57,6 +57,8 @@ public class RobotContainer {
     m_tableInstance = NetworkTableInstance.getDefault();
     initializeNetworkTables();
     configureButtonBindings();
+
+    m_verticalIndexer = new VerticalIndexer(m_horizontalIndexer, m_intake);
 
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
     m_turret.setDefaultCommand(new RotateTurret(m_turret, m_operatorController));
@@ -96,7 +98,7 @@ public class RobotContainer {
         .whenReleased(() -> m_chassis.setMaxOutput(Constants.TELEOP_MAX_DRIVE_POWER));
         
     new JoystickButton(m_driverController, Button.kX.value)
-        .whileHeld(new IntakeABall(m_intake));
+        .whileHeld(new IntakeABall(m_intake, m_horizontalIndexer, m_verticalIndexer));
     
     new JoystickButton(m_driverController, Button.kY.value)
         .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));

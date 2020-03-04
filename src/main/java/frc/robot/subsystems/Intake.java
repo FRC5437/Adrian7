@@ -10,12 +10,16 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   private final WPI_TalonSRX m_intakePositionMotor = new WPI_TalonSRX(Constants.INTAKE_POSITION_MOTOR_ID);
   private final WPI_TalonSRX m_intakeBeltMotor = new WPI_TalonSRX(Constants.INTAKE_BELT_MOTOR_ID);
+
+  private final DigitalInput m_intakeIndexerSensor = new DigitalInput(Constants.DIO_PORT_INTAKE_BALL_SENSOR);
+
   
   /**
    * Creates a new Intake.
@@ -62,6 +66,14 @@ public class Intake extends SubsystemBase {
 
   public void stop(){
     m_intakeBeltMotor.set(ControlMode.PercentOutput, 0.0);
+  }
+
+  public boolean isEmpty(){
+    return m_intakeIndexerSensor.get(); 
+  }
+
+  public boolean hasABall(){
+    return !m_intakeIndexerSensor.get();
   }
 
   @Override
