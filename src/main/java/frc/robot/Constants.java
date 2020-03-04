@@ -16,6 +16,19 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  //GAINS for drive train
+  public static final double TALON_DRIVE_P = 0.2;
+  public static final double TALON_DRIVE_I = 0.0;
+  public static final double TALON_DRIVE_D = 0.0;
+  public static final double TALON_DRIVE_F = 0.0;
+  public static final double TALON_DRIVE_I_ZONE = 0.0;
+  public static final double TALON_DRIVE_PEAK_OUTPUT = 1.0;
+
+
+  public static final int TALON_PID_LOOP_INDEX = 0;
+  public static final int TALON_SLOT_INDEX = 0;
+  public static final int TALON_DEFAULT_PID_PORT = 0;
+  public static final int TALON_TIMEOUT_MS = 10;
   public static final int K_UNITS_PER_REVOLUTION = 2048; /* this is constant for Talon FX */
   public static final int LEFT_UPPER_DRIVE_ID = 4;
   public static final int LEFT_LOWER_DRIVE_ID = 1;
@@ -32,19 +45,19 @@ public final class Constants {
   public static final int INTAKE_POSITION_MOTOR_ID = 22;
   public static final int INTAKE_BELT_MOTOR_ID = 21;
 
-  public static final int TALON_DEFAULT_PID_PORT = 0;
-  public static final int TALON_TIMEOUT_MS = 10;
-
   public static final int DIO_PORT_TOP_VERTICAL_BALL_SENSOR = 0;
   public static final int DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR = 1;
   public static final int DIO_PORT_REAR_HORIZONTAL_BALL_SENSOR = 2;
   public static final int DIO_PORT_FRONT_HORIZONTAL_BALL_SENSOR = 3;
   public static final int DIO_PORT_INTAKE_BALL_SENSOR = 4;
-  
-
 
   public static final int SPEED_FOR_INITIATION_LINE = 17000;
   public static final int SPEED_FOR_END_OF_TRENCH_RUN = 17500;
   public static final double TELEOP_MAX_DRIVE_POWER = 0.6;
+
+  public static final double WHEEL_DIAMETER_INCHES = 8.0;
+  public static final double WHEEL_SPACING_INCHES = 24.0;
+  public static final double WHEEL_ROTATIONS_PER_INCH = 0.125;
+  public static final double WHEEL_ROTATIONS_PER_DEGREE_TURN = 0.0166667;
 
 }

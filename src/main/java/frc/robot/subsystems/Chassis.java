@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -55,8 +57,13 @@ public class Chassis extends SubsystemBase {
     
   }
 
-  public void driveAuto(double fwd, double rot){
-    m_robotDrive.arcadeDrive(fwd, rot);
+  public int convertInchesToTarget(double distanceInches){
+    int distanceInTicks = (int)(Constants.WHEEL_ROTATIONS_PER_INCH * distanceInches * Constants.K_UNITS_PER_REVOLUTION);
+    return m_leftMaster.getSelectedSensorPosition() + distanceInTicks;
+  }
+
+  public void driveAuto(int targetPos){
+    m_leftMaster.set(TalonFXControlMode.MotionMagic, targetPos);
   }
 
   /**
@@ -157,12 +164,44 @@ public class Chassis extends SubsystemBase {
     m_leftMaster.setSensorPhase(true);
 
     m_robotDrive.setRightSideInverted(false);
-
     m_robotDrive.setSafetyEnabled(false);
 
     //setup encoders
     m_leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
     m_rightMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.TALON_DEFAULT_PID_PORT, Constants.TALON_TIMEOUT_MS);
 
+    m_leftMaster.configNeutralDeadband(0.001, Constants.TALON_TIMEOUT_MS);
+    m_rightMaster.configNeutralDeadband(0.001, Constants.TALON_TIMEOUT_MS);
+
+    setupTalonForMotionMagic(m_leftMaster);
+    setupTalonForMotionMagic(m_rightMaster);
+  }
+
+  private void setupTalonForMotionMagic(WPI_TalonFX talon){
+    talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.TALON_TIMEOUT_MS);
+		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.TALON_TIMEOUT_MS);
+
+		/* Set the peak and nominal outputs */
+		talon.configNominalOutputForward(0, Constants.TALON_TIMEOUT_MS);
+		talon.configNominalOutputReverse(0, Constants.TALON_TIMEOUT_MS);
+		talon.configPeakOutputForward(1, Constants.TALON_TIMEOUT_MS);
+		talon.configPeakOutputReverse(-1, Constants.TALON_TIMEOUT_MS);
+
+		/* Set Motion Magic gains in slot0 - see documentation */
+		talon.selectProfileSlot(Constants.TALON_SLOT_INDEX, Constants.TALON_PID_LOOP_INDEX);
+		talon.config_kF(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_F, Constants.TALON_TIMEOUT_MS);
+		talon.config_kP(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_P, Constants.TALON_TIMEOUT_MS);
+		talon.config_kI(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_I, Constants.TALON_TIMEOUT_MS);
+		talon.config_kD(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_D, Constants.TALON_TIMEOUT_MS);
+
+		/* Set acceleration and vcruise velocity - see documentation */
+		talon.configMotionCruiseVelocity(15000, Constants.TALON_TIMEOUT_MS);
+    talon.configMotionAcceleration(6000, Constants.TALON_TIMEOUT_MS);
+    
+    //try middle of the road smoothing TODO add constant
+    talon.configMotionSCurveStrength(4);
+
+		/* Zero the sensor once on robot boot up */
+		talon.setSelectedSensorPosition(0, Constants.TALON_PID_LOOP_INDEX, Constants.TALON_TIMEOUT_MS);
   }
 }

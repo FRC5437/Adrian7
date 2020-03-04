@@ -22,13 +22,12 @@ public class Turret extends SubsystemBase {
   private final NetworkTableInstance m_tableInstance;
   private NetworkTable m_limelight;
 
-
   /**
    * Creates a new Turret.
    */
   public Turret() {
     m_tableInstance = NetworkTableInstance.getDefault();
-     m_limelight = m_tableInstance.getTable("limelight-shooter");
+    m_limelight = m_tableInstance.getTable("limelight-shooter");
      
   }
 

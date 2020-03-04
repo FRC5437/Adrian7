@@ -32,14 +32,14 @@ public class DriveAndIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_chassis.driveAuto(0.5, 0.0);
+    //m_chassis.driveAuto(0.5, 0.0);
     m_intake.ingest();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_chassis.driveAuto(0.0, 0.0);
+    //m_chassis.driveAuto(0.0, 0.0);
     m_intake.stop();
   }
 

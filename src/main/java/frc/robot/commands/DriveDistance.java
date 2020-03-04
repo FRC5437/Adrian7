@@ -10,12 +10,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 
-public class DriveForTime extends CommandBase {
+public class DriveDistance extends CommandBase {
+  Chassis m_chassis;
+  int m_targetPosition;
   /**
-   * Creates a new DriveForTime.
+   * Creates a new DriveDistance.
    */
-  public DriveForTime(Chassis chassis) {
+  public DriveDistance(Chassis chassis, double distanceInches) {
+    m_chassis = chassis;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(chassis);
+    m_targetPosition = m_chassis.convertInchesToTarget(distanceInches);
   }
 
   // Called when the command is initially scheduled.
@@ -26,6 +31,7 @@ public class DriveForTime extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_chassis.driveAuto(m_targetPosition);
   }
 
   // Called once the command ends or is interrupted.
