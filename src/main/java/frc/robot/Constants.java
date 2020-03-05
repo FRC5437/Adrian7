@@ -45,6 +45,7 @@ public final class Constants {
   public static final int HORIZONTAL_FEEDER_MOTOR_ID = 53;
   public static final int INTAKE_POSITION_MOTOR_ID = 22;
   public static final int INTAKE_BELT_MOTOR_ID = 21;
+  public static final int CLIMBER_MOTOR_ID = 37;
 
   public static final int DIO_PORT_TOP_VERTICAL_BALL_SENSOR = 0;
   public static final int DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR = 1;
@@ -62,6 +63,6 @@ public final class Constants {
   public static final double WHEEL_ROTATIONS_PER_DEGREE_TURN = 0.0166667;
 public static final double WHEEL_GEAR_RATIO = 15.31;
 public static final int TALON_INDEXER_TOLERANCE = 50;
-public static final double TALON_INDEXER_P = 5.0;
+public static final double TALON_INDEXER_P = 6.0;
 
 }

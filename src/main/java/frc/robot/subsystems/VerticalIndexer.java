@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -30,12 +31,16 @@ public class VerticalIndexer extends SubsystemBase {
     initializeMotorControl();
   }
 
+  public void drive(double power){
+    m_feederMotor.set(ControlMode.PercentOutput, power);
+  }
+
   public void activate(){
-    m_feederMotor.set(ControlMode.PercentOutput, 0.5);
+    m_feederMotor.set(ControlMode.PercentOutput, 0.50);
   }
 
   public void backup(){
-    m_feederMotor.set(ControlMode.PercentOutput, -0.5);
+    m_feederMotor.set(ControlMode.PercentOutput, -0.50);
   }
 
   public void stop(){
@@ -48,6 +53,14 @@ public class VerticalIndexer extends SubsystemBase {
 
   public boolean hasABall(){
     return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get();
+  }
+
+  public boolean ballAtStage4(){
+    return !m_verticalIndexerBottomSensor.get();
+  }
+
+  public boolean ballAtStage5(){
+    return !m_verticalIndexerTopSensor.get();
   }
 
   public int getCurrentPosition(){
@@ -91,14 +104,15 @@ public class VerticalIndexer extends SubsystemBase {
 		talon.config_kD(Constants.TALON_SLOT_INDEX, Constants.TALON_DRIVE_D, Constants.TALON_TIMEOUT_MS);
 
 		/* Set acceleration and vcruise velocity - see documentation */
-		talon.configMotionCruiseVelocity(10000, Constants.TALON_TIMEOUT_MS);
+		talon.configMotionCruiseVelocity(15000, Constants.TALON_TIMEOUT_MS);
     talon.configMotionAcceleration(6000, Constants.TALON_TIMEOUT_MS);
     
     //try middle of the road smoothing TODO add constant
-    talon.configMotionSCurveStrength(0);
+    talon.configMotionSCurveStrength(1);
 
 		/* Zero the sensor once on robot boot up */
-		talon.setSelectedSensorPosition(0, Constants.TALON_PID_LOOP_INDEX, Constants.TALON_TIMEOUT_MS);
+    talon.setSelectedSensorPosition(0, Constants.TALON_PID_LOOP_INDEX, Constants.TALON_TIMEOUT_MS);
+    talon.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override

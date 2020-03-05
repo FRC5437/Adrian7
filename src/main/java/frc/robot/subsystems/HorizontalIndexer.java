@@ -29,11 +29,11 @@ public class HorizontalIndexer extends SubsystemBase {
   }
 
   public void activate(){
-    m_feederMotor.set(ControlMode.PercentOutput, -0.7);
+    m_feederMotor.set(ControlMode.PercentOutput, -0.9);
   }
 
   public void backup(){
-    m_feederMotor.set(ControlMode.PercentOutput, 0.7);
+    m_feederMotor.set(ControlMode.PercentOutput, 0.9);
   }
 
   public void stop(){
@@ -44,8 +44,12 @@ public class HorizontalIndexer extends SubsystemBase {
     return m_rearHorizontalIndexerSensor.get() && m_frontHorizontalIndexerSensor.get(); 
   }
 
-  public boolean hasABall(){
-    return !m_rearHorizontalIndexerSensor.get() || !m_frontHorizontalIndexerSensor.get();
+  public boolean ballAtStage3(){
+    return !m_rearHorizontalIndexerSensor.get();
+  }
+
+  public boolean ballAtStage2(){
+    return !m_frontHorizontalIndexerSensor.get();
   }
 
   @Override

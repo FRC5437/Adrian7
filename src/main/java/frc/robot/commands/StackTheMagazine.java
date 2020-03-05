@@ -8,24 +8,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.HorizontalIndexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.VerticalIndexer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class Auto3BallSequence extends SequentialCommandGroup {
+public class StackTheMagazine extends SequentialCommandGroup {
   /**
-   * Creates a new Auto3BallSequence.
+   * Creates a new StackTheMagazine.
    */
-  public Auto3BallSequence(Shooter shooter, VerticalIndexer indexer, HorizontalIndexer horizontalIndexer, Intake intake, Chassis chassis) {
+  public StackTheMagazine(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShootAtSpeed(Constants.SPEED_FOR_INITIATION_LINE, shooter, indexer, horizontalIndexer), new LowerIntake(intake), new DriveDistance(chassis, -24.0));
+    super(new IntakeABall(intake), new AdvanceHorizontalIndexer(horizontalIndexer), new AdvanceVerticalIndex(verticalIndexer));
   }
 }

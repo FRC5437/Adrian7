@@ -62,11 +62,25 @@ public class Turret extends SubsystemBase {
   }
 
   public void rotate(double rotation_rate){
-    //add a deadband
-    if (Math.abs(rotation_rate) < 0.05){
-      rotation_rate = 0.0;
+    m_turretMotor.set(ControlMode.PercentOutput, getEnhancedJoystickInput(rotation_rate));
+  }
+
+  /**
+   * square the value while retaining sign and implement a deadband
+   * 
+   * @param rawValue - expected to represent a joystick axis value
+   * @return modifiedValue which has retained the sign but squared the value and
+   *         implemented a deadband for small rawValues
+   */
+  private double getEnhancedJoystickInput(final double rawValue) {
+    final int sign = (int) Math.signum(rawValue);
+    double modifiedValue = Math.pow(rawValue, 4.0);//rawValue * rawValue * rawValue * rawValue;
+    //deadband
+    if (modifiedValue < 0.04) {
+        modifiedValue = 0.0;
     }
-    m_turretMotor.set(ControlMode.PercentOutput, rotation_rate * 0.5);
+
+    return sign * modifiedValue;
   }
 
   @Override

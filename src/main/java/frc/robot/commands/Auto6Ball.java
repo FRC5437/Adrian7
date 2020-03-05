@@ -7,34 +7,19 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.HorizontalIndexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.VerticalIndexer;
 
-public class Auto6Ball extends CommandBase {
-  /**
-   * Creates a new Auto6Ball.
-   */
-  public Auto6Ball() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class Auto6Ball extends SequentialCommandGroup {
+  public Auto6Ball(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer, Chassis chassis, double distanceInches, Shooter shooter){
+    super(new Auto3BallSequence(shooter, verticalIndexer, horizontalIndexer, intake, chassis),
+          new DriveDistanceAndStackMagazine(intake, horizontalIndexer, verticalIndexer, chassis, distanceInches), 
+          new DriveDistance(chassis, distanceInches), 
+          new ShootTheMoon(shooter, verticalIndexer, horizontalIndexer, intake));
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

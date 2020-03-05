@@ -34,6 +34,7 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final HorizontalIndexer m_horizontalIndexer = new HorizontalIndexer();
   private final VerticalIndexer m_verticalIndexer = new VerticalIndexer();
+  private final Climber m_climber = new Climber();
 
   private SendableChooser<Command> m_autoChooser;
   private Command m_autoCommand;
@@ -61,13 +62,14 @@ public class RobotContainer {
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
     m_turret.setDefaultCommand(new RotateTurret(m_turret, m_operatorController));
     m_intake.setDefaultCommand(new DriveIntake(m_intake, m_driverController));
+    m_climber.setDefaultCommand(new DriveClimber(m_climber, m_operatorController));
     initializeAutoChooser();
   }
 
   private void initializeAutoChooser() {
     m_autoChooser = new SendableChooser<>();
-    m_autoChooser.setDefaultOption("3 Ball Auto", new Auto3BallSequence(m_shooter, m_verticalIndexer, m_turret, m_intake, m_chassis));
-    m_autoChooser.addOption("6 Ball Auto", new Auto6Ball());
+    m_autoChooser.setDefaultOption("3 Ball Auto", new Auto3BallSequence(m_shooter, m_verticalIndexer, m_horizontalIndexer, m_intake, m_chassis));
+    m_autoChooser.addOption("6 Ball Auto", new Auto6Ball(m_intake, m_horizontalIndexer, m_verticalIndexer, m_chassis, 174.0, m_shooter));
     m_autoChooser.addOption("5 Ball Sneak Auto", new Auto5Ball());
     m_autoChooser.addOption("8 Ball Auto", new Auto8Ball());
     m_autoChooser.addOption("10 Ball Auto", new Auto10Ball());
@@ -95,15 +97,18 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_chassis.setMaxOutput(1.0))
         .whenReleased(() -> m_chassis.setMaxOutput(Constants.TELEOP_MAX_DRIVE_POWER));
+
+    new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        .whileHeld(new Vomit(m_intake, m_horizontalIndexer, m_verticalIndexer));
         
     new JoystickButton(m_driverController, Button.kX.value)
-        .whileHeld(new IntakeABall(m_intake, m_horizontalIndexer, m_verticalIndexer));
+        .whileHeld(new StackTheMagazine(m_intake, m_horizontalIndexer, m_verticalIndexer));
     
     new JoystickButton(m_driverController, Button.kY.value)
         .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));
 
     new JoystickButton(m_driverController, Button.kA.value)
-        .whileHeld(new AdvanceHorizontalIndexer(m_horizontalIndexer));
+        .whenPressed(new AdvanceHorizontalIndexer(m_horizontalIndexer));
 
     new JoystickButton(m_driverController, Button.kB.value)
         .whenPressed(new AdvanceVerticalIndex(m_verticalIndexer));
@@ -112,10 +117,10 @@ public class RobotContainer {
     
 
     new JoystickButton(m_operatorController, Button.kX.value)
-        .whileHeld(new ShootAtSpeed(17000, m_shooter, m_verticalIndexer));
+        .whileHeld(new ShootAtSpeed(17000, m_shooter, m_verticalIndexer, m_horizontalIndexer));
 
     new JoystickButton(m_operatorController, Button.kY.value)
-        .whileHeld(new ShootAtSpeed(17500, m_shooter, m_verticalIndexer));
+        .whileHeld(new ShootAtSpeed(17500, m_shooter, m_verticalIndexer, m_horizontalIndexer));
 
     new JoystickButton(m_operatorController, Button.kA.value)
         .whileHeld(new AimAtLimelightTarget(m_turret));

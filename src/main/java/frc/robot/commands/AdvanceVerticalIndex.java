@@ -13,12 +13,13 @@ import frc.robot.subsystems.VerticalIndexer;
 public class AdvanceVerticalIndex extends CommandBase {
   VerticalIndexer m_indexer;
   int m_targetPosition = 0;
-  int m_counter = 0;
+  int m_counter;
   /**
    * Creates a new AdvanceVerticalIndex.
    */
   public AdvanceVerticalIndex(VerticalIndexer indexer) {
     m_indexer = indexer;
+    m_counter = 0;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(indexer);
   }
@@ -27,13 +28,15 @@ public class AdvanceVerticalIndex extends CommandBase {
   @Override
   public void initialize() {
     m_counter = 0;
-    m_targetPosition = m_indexer.getCurrentPosition() + 5000;
+    m_targetPosition = m_indexer.getCurrentPosition() + 5950;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexer.advanceBall(m_targetPosition);
+    //TODO see if simple power based activation works better than motion magic
+    //m_indexer.advanceBall(m_targetPosition);
+    m_indexer.drive(0.35);
   }
 
   // Called once the command ends or is interrupted.
@@ -45,13 +48,14 @@ public class AdvanceVerticalIndex extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_indexer.onTarget() ){
-      m_counter += 1;
-    }
-    if (m_counter > 5){
-      return true;
-    } else {
-      return false;
-    }  
+    //TODO trying to use the ball sensors rather than the error
+    //because there are 2 different distance moves depending on whether we are moving a ball from stage 3 or stage 4
+      if(m_indexer.ballAtStage5()){
+        return true;      
+      }
+      if(m_indexer.ballAtStage4() || m_indexer.ballAtStage5()){
+        m_counter += 1;
+      }
+    return m_counter > 3;
   }
 }

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.HorizontalIndexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.VerticalIndexer;
 
@@ -18,18 +19,20 @@ public class ShootAtSpeed extends CommandBase {
   int m_target_speed;
   Shooter m_shooter;
   VerticalIndexer m_indexer;
+  HorizontalIndexer m_horiz;
 
   int m_empty_counter = 0;
 
   /**
    * Creates a new ShootAtSpeed.
    */
-  public ShootAtSpeed(int speed, Shooter shooter, VerticalIndexer indexer) {
+  public ShootAtSpeed(int speed, Shooter shooter, VerticalIndexer indexer, HorizontalIndexer horiz) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter, indexer);
+    addRequirements(shooter, indexer, horiz);
     m_target_speed = speed;
     m_shooter = shooter;
     m_indexer = indexer;
+    m_horiz = horiz;
   }
 
   // Called when the command is initially scheduled.
@@ -46,9 +49,11 @@ public class ShootAtSpeed extends CommandBase {
       if (Math.abs(m_target_speed - currentSpeed) < tolerance){
         //we are close enough to target velocity so shoot the ball!
         m_indexer.activate();
+        m_horiz.activate();
       } else {
         //we are out of tolerance for the shooter velocity so wait for it
         m_indexer.stop();
+        m_horiz.stop();
       }
   }
 
@@ -57,6 +62,8 @@ public class ShootAtSpeed extends CommandBase {
   public void end(boolean interrupted) {
     m_shooter.stop();
     m_indexer.stop();
+    m_horiz.stop();
+    m_empty_counter = 0;
   }
 
   // Returns true when the command should end.

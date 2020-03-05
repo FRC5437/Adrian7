@@ -14,37 +14,28 @@ import frc.robot.subsystems.VerticalIndexer;
 
 public class IntakeABall extends CommandBase {
   private final Intake m_intake;
-  private final HorizontalIndexer m_horizontalIndexer;
-  private final VerticalIndexer m_verticalIndexer;
+  private int m_counter;
 
-  private boolean m_needToProcessBall = false;
   /**
    * Creates a new IntakeABall.
    */
-  public IntakeABall(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
+  public IntakeABall(Intake intake) {
     m_intake = intake;
-    m_horizontalIndexer = horizontalIndexer;
-    m_verticalIndexer = verticalIndexer;
-
-    addRequirements(intake, horizontalIndexer, verticalIndexer);
+    m_counter = 0;
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_counter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_intake.ingest();
-    if (m_intake.hasABall()){
-      m_needToProcessBall = true;
-    }
-    if (m_needToProcessBall){
-      
-    }
   }
 
   // Called once the command ends or is interrupted.
@@ -56,6 +47,11 @@ public class IntakeABall extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_intake.hasABall()){
+      m_counter += 1;
+    } else {
+      m_counter = 0;
+    }
+    return m_counter > 10;
   }
 }

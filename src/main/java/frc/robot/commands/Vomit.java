@@ -9,46 +9,50 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HorizontalIndexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.VerticalIndexer;
 
-public class AdvanceHorizontalIndexer extends CommandBase {
-  private final HorizontalIndexer m_indexer;
-  private int m_counter;
+public class Vomit extends CommandBase {
+  Intake m_intake;
+  HorizontalIndexer m_horizontalIndexer;
+  VerticalIndexer m_verticalIndexer;
+
   /**
-   * Creates a new AdvanceHorizontalIndexer.
+   * Creates a new Vomit.
    */
-  public AdvanceHorizontalIndexer(HorizontalIndexer indexer) {
-    m_indexer = indexer;
-    m_counter = 0;
+  public Vomit(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
+    m_intake = intake;
+    m_horizontalIndexer = horizontalIndexer;
+    m_verticalIndexer = verticalIndexer;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(indexer);
+    addRequirements(intake, horizontalIndexer, verticalIndexer);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_counter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexer.activate();
+    m_intake.eject();
+    m_horizontalIndexer.backup();
+    m_verticalIndexer.backup();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_indexer.stop();
+    m_intake.stop();
+    m_horizontalIndexer.stop();
+    m_verticalIndexer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_indexer.ballAtStage3() || !m_indexer.ballAtStage2()){
-      m_counter += 1;
-    } else {
-      m_counter = 0;
-    }
-    return m_counter > 10;
+    return false;
   }
 }
