@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.HorizontalIndexer;
 import frc.robot.subsystems.Intake;
@@ -18,8 +19,8 @@ public class Auto6Ball extends SequentialCommandGroup {
   public Auto6Ball(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer, Chassis chassis, double distanceInches, Shooter shooter){
     super(new Auto3BallSequence(shooter, verticalIndexer, horizontalIndexer, intake, chassis),
           new DriveDistanceAndStackMagazine(intake, horizontalIndexer, verticalIndexer, chassis, distanceInches), 
-          new DriveDistance(chassis, distanceInches), 
-          new ShootTheMoon(shooter, verticalIndexer, horizontalIndexer, intake));
+          new DriveDistance(chassis, -1.0 * distanceInches), 
+          new ShootAtSpeed (Constants.SPEED_FOR_END_OF_TRENCH_RUN, shooter, verticalIndexer, horizontalIndexer));
   }
 
 }

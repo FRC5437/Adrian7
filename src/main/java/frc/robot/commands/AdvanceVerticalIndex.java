@@ -34,7 +34,6 @@ public class AdvanceVerticalIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //TODO see if simple power based activation works better than motion magic
     //m_indexer.advanceBall(m_targetPosition);
     m_indexer.drive(0.35);
   }
@@ -48,14 +47,13 @@ public class AdvanceVerticalIndex extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //TODO trying to use the ball sensors rather than the error
     //because there are 2 different distance moves depending on whether we are moving a ball from stage 3 or stage 4
-      if(m_indexer.ballAtStage5()){
+      if(m_indexer.ballAtMidSensor()){
         return true;      
       }
-      if(m_indexer.ballAtStage4() || m_indexer.ballAtStage5()){
+      if(m_indexer.ballAtBottomSensor() || m_indexer.ballAtMidSensor()){
         m_counter += 1;
       }
-    return m_counter > 3;
+    return m_counter > 5;
   }
 }

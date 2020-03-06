@@ -15,15 +15,14 @@ import frc.robot.subsystems.VerticalIndexer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class Stack3 extends SequentialCommandGroup {
+public class Stack2 extends SequentialCommandGroup {
   /**
    * Creates a new Stack3.
    */
-  public Stack3(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
+  public Stack2(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new StackTheMagazine(intake, horizontalIndexer, verticalIndexer),
-          new StackTheMagazine(intake, horizontalIndexer, verticalIndexer),
           new StackTheMagazine(intake, horizontalIndexer, verticalIndexer) );
   }
 }

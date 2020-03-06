@@ -13,7 +13,6 @@ import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.HorizontalIndexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.VerticalIndexer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -26,6 +25,6 @@ public class Auto3BallSequence extends SequentialCommandGroup {
   public Auto3BallSequence(Shooter shooter, VerticalIndexer indexer, HorizontalIndexer horizontalIndexer, Intake intake, Chassis chassis) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShootAtSpeed(Constants.SPEED_FOR_INITIATION_LINE, shooter, indexer, horizontalIndexer), new LowerIntake(intake), new DriveDistance(chassis, -24.0));
+    super(new ShootAtSpeed(Constants.SPEED_FOR_INITIATION_LINE, shooter, indexer, horizontalIndexer), new LowerIntake(intake), new DriveDistance(chassis, -36.0));
   }
 }

@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -25,15 +26,15 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
    */
   public Intake() {
-
+    m_intakePositionMotor.setNeutralMode(NeutralMode.Coast);
   }
 
   public boolean isLowered(){
-    return m_intakePositionMotor.getSelectedSensorPosition() > 600;
+    return m_intakePositionMotor.getSelectedSensorPosition() > 500;
   }
 
   public boolean isRaised(){
-    return m_intakePositionMotor.getSelectedSensorPosition() < 300;
+    return m_intakePositionMotor.getSelectedSensorPosition() < 200;
   }
 
   public void raiseIntake(){
@@ -82,5 +83,9 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void resetEncoder() {
+    m_intakePositionMotor.setSelectedSensorPosition(0, Constants.TALON_PID_LOOP_INDEX, Constants.TALON_TIMEOUT_MS);
   }
 }

@@ -69,7 +69,7 @@ public class RobotContainer {
   private void initializeAutoChooser() {
     m_autoChooser = new SendableChooser<>();
     m_autoChooser.setDefaultOption("3 Ball Auto", new Auto3BallSequence(m_shooter, m_verticalIndexer, m_horizontalIndexer, m_intake, m_chassis));
-    m_autoChooser.addOption("6 Ball Auto", new Auto6Ball(m_intake, m_horizontalIndexer, m_verticalIndexer, m_chassis, 174.0, m_shooter));
+    m_autoChooser.addOption("6 Ball Auto", new Auto6Ball(m_intake, m_horizontalIndexer, m_verticalIndexer, m_chassis, 120.0, m_shooter));
     m_autoChooser.addOption("5 Ball Sneak Auto", new Auto5Ball());
     m_autoChooser.addOption("8 Ball Auto", new Auto8Ball());
     m_autoChooser.addOption("10 Ball Auto", new Auto10Ball());
@@ -102,16 +102,10 @@ public class RobotContainer {
         .whileHeld(new Vomit(m_intake, m_horizontalIndexer, m_verticalIndexer));
         
     new JoystickButton(m_driverController, Button.kX.value)
-        .whileHeld(new StackTheMagazine(m_intake, m_horizontalIndexer, m_verticalIndexer));
-    
-    new JoystickButton(m_driverController, Button.kY.value)
-        .whileHeld(new AdvanceVerticalIndex(m_verticalIndexer));
+        .whenPressed(new StackTheMagazine(m_intake, m_horizontalIndexer, m_verticalIndexer));
 
     new JoystickButton(m_driverController, Button.kA.value)
         .whenPressed(new AdvanceHorizontalIndexer(m_horizontalIndexer));
-
-    new JoystickButton(m_driverController, Button.kB.value)
-        .whenPressed(new AdvanceVerticalIndex(m_verticalIndexer));
 
     //***** Operator Controls ***********/
     

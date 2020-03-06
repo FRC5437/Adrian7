@@ -8,9 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.HorizontalIndexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.VerticalIndexer;
 
 public class IntakeABall extends CommandBase {
   private final Intake m_intake;

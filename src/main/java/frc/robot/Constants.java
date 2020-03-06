@@ -47,11 +47,13 @@ public final class Constants {
   public static final int INTAKE_BELT_MOTOR_ID = 21;
   public static final int CLIMBER_MOTOR_ID = 37;
 
-  public static final int DIO_PORT_TOP_VERTICAL_BALL_SENSOR = 0;
-  public static final int DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR = 1;
-  public static final int DIO_PORT_REAR_HORIZONTAL_BALL_SENSOR = 2;
-  public static final int DIO_PORT_FRONT_HORIZONTAL_BALL_SENSOR = 3;
-  public static final int DIO_PORT_INTAKE_BALL_SENSOR = 4;
+  public static final int DIO_PORT_TOP_VERTICAL_BALL_SENSOR = 6;
+  public static final int DIO_PORT_MID_VERTICAL_BALL_SENSOR = 5;
+  public static final int DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR = 4;
+  public static final int DIO_PORT_REAR_HORIZONTAL_BALL_SENSOR = 3;
+  public static final int DIO_PORT_MID_HORIZONTAL_BALL_SENSOR = 2;
+  public static final int DIO_PORT_FRONT_HORIZONTAL_BALL_SENSOR = 1;
+  public static final int DIO_PORT_INTAKE_BALL_SENSOR = 0;
 
   public static final int SPEED_FOR_INITIATION_LINE = 17000;
   public static final int SPEED_FOR_END_OF_TRENCH_RUN = 17500;

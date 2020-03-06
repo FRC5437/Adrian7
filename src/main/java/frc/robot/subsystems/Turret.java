@@ -28,7 +28,7 @@ public class Turret extends SubsystemBase {
   public Turret() {
     m_tableInstance = NetworkTableInstance.getDefault();
     m_limelight = m_tableInstance.getTable("limelight-shooter");
-     
+    m_turretMotor.configFactoryDefault();
   }
 
   public double getTargetArea(){
@@ -72,15 +72,19 @@ public class Turret extends SubsystemBase {
    * @return modifiedValue which has retained the sign but squared the value and
    *         implemented a deadband for small rawValues
    */
-  private double getEnhancedJoystickInput(final double rawValue) {
-    final int sign = (int) Math.signum(rawValue);
+  private double getEnhancedJoystickInput(double rawValue) {
+    int sign = (int) Math.signum(rawValue);
     double modifiedValue = Math.pow(rawValue, 4.0);//rawValue * rawValue * rawValue * rawValue;
     //deadband
     if (modifiedValue < 0.04) {
         modifiedValue = 0.0;
     }
-
-    return sign * modifiedValue;
+    double enhancedValue = sign * modifiedValue;
+    if (enhancedValue > 0.15){
+      return 0.15;
+    } else {
+      return enhancedValue;
+    }
   }
 
   @Override

@@ -22,7 +22,9 @@ public class VerticalIndexer extends SubsystemBase {
 
   // NOTE these sensors read true when empty and false when detecting a ball
   private final DigitalInput m_verticalIndexerTopSensor = new DigitalInput(Constants.DIO_PORT_TOP_VERTICAL_BALL_SENSOR);
+  private final DigitalInput m_verticalIndexerMidSensor = new DigitalInput(Constants.DIO_PORT_MID_VERTICAL_BALL_SENSOR);
   private final DigitalInput m_verticalIndexerBottomSensor = new DigitalInput(Constants.DIO_PORT_BOTTOM_VERTICAL_BALL_SENSOR);
+  private final DigitalInput m_verticalIndexerRearHorizontalSensor = new DigitalInput(Constants.DIO_PORT_REAR_HORIZONTAL_BALL_SENSOR);
 
   /**
    * Creates a new VerticalIndexer.
@@ -48,19 +50,22 @@ public class VerticalIndexer extends SubsystemBase {
   }
 
   public boolean isEmpty(){
-    return m_verticalIndexerTopSensor.get() && m_verticalIndexerBottomSensor.get(); 
+    return m_verticalIndexerMidSensor.get() && 
+        m_verticalIndexerBottomSensor.get() && 
+        m_verticalIndexerTopSensor.get() && 
+        m_verticalIndexerRearHorizontalSensor.get(); 
   }
 
   public boolean hasABall(){
-    return !m_verticalIndexerTopSensor.get() || !m_verticalIndexerBottomSensor.get();
+    return !isEmpty();  
   }
 
-  public boolean ballAtStage4(){
+  public boolean ballAtBottomSensor(){
     return !m_verticalIndexerBottomSensor.get();
   }
 
-  public boolean ballAtStage5(){
-    return !m_verticalIndexerTopSensor.get();
+  public boolean ballAtMidSensor(){
+    return !m_verticalIndexerMidSensor.get() || !m_verticalIndexerTopSensor.get();
   }
 
   public int getCurrentPosition(){

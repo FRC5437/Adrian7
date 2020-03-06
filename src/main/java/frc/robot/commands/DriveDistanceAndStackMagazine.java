@@ -23,6 +23,7 @@ public class DriveDistanceAndStackMagazine extends ParallelCommandGroup {
   public DriveDistanceAndStackMagazine(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer, Chassis chassis, double distance) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new Stack3(intake, horizontalIndexer, verticalIndexer), new DriveDistance(chassis, distance));
+    //super(new StackTheMagazine(intake, horizontalIndexer, verticalIndexer), new DriveDistance(chassis, distance));
+    super(new IntakeABall(intake), new DriveDistance(chassis, distance));
   }
 }

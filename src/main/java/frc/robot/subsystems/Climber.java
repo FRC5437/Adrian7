@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,6 +21,7 @@ public class Climber extends SubsystemBase {
    * Creates a new Climber.
    */
   public Climber() {
+    m_climberMotor.setNeutralMode(NeutralMode.Brake);
 
   }
 
@@ -52,9 +54,9 @@ public class Climber extends SubsystemBase {
    * @return modifiedValue which has retained the sign but squared the value and
    *         implemented a deadband for small rawValues
    */
-  private double getEnhancedJoystickInput(final double rawValue) {
-    final int sign = (int) Math.signum(rawValue);
-    double modifiedValue = Math.pow(rawValue, 4.0);//rawValue * rawValue * rawValue * rawValue;
+  private double getEnhancedJoystickInput(double rawValue) {
+    int sign = (int) Math.signum(rawValue);
+    double modifiedValue = Math.pow(rawValue, 2.0);//rawValue * rawValue * rawValue * rawValue;
     //deadband
     if (modifiedValue < 0.04) {
         modifiedValue = 0.0;

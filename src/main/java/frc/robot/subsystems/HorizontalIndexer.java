@@ -17,7 +17,7 @@ import frc.robot.Constants;
 public class HorizontalIndexer extends SubsystemBase {
   private final WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.HORIZONTAL_FEEDER_MOTOR_ID);
 
-  private final DigitalInput m_rearHorizontalIndexerSensor = new DigitalInput(Constants.DIO_PORT_REAR_HORIZONTAL_BALL_SENSOR);
+  private final DigitalInput m_midHorizontalIndexerSensor = new DigitalInput(Constants.DIO_PORT_MID_HORIZONTAL_BALL_SENSOR);
   private final DigitalInput m_frontHorizontalIndexerSensor = new DigitalInput(Constants.DIO_PORT_FRONT_HORIZONTAL_BALL_SENSOR);
 
 
@@ -41,14 +41,14 @@ public class HorizontalIndexer extends SubsystemBase {
   }
 
   public boolean isEmpty(){
-    return m_rearHorizontalIndexerSensor.get() && m_frontHorizontalIndexerSensor.get(); 
+    return m_midHorizontalIndexerSensor.get() && m_frontHorizontalIndexerSensor.get(); 
   }
 
-  public boolean ballAtStage3(){
-    return !m_rearHorizontalIndexerSensor.get();
+  public boolean ballAtMidHorizontal(){
+    return !m_midHorizontalIndexerSensor.get();
   }
 
-  public boolean ballAtStage2(){
+  public boolean ballAtFrontHorizontal(){
     return !m_frontHorizontalIndexerSensor.get();
   }
 

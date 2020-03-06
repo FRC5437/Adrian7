@@ -44,7 +44,7 @@ public class AdvanceHorizontalIndexer extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_indexer.ballAtStage3() || !m_indexer.ballAtStage2()){
+    if (m_indexer.ballAtMidHorizontal() || !m_indexer.ballAtFrontHorizontal()){
       m_counter += 1;
     } else {
       m_counter = 0;

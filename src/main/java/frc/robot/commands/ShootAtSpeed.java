@@ -70,7 +70,7 @@ public class ShootAtSpeed extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean all_done = false;
-    if (m_indexer.isEmpty()){
+    if (m_indexer.isEmpty() && m_horiz.isEmpty()){
       m_empty_counter += 1;
     } else {
       m_empty_counter = 0;
