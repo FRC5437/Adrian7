@@ -8,20 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.VerticalIndexer;
 
-public class IntakeABall extends CommandBase {
-  private final Intake m_intake;
-  private int m_counter;
-
+public class BackupVerticalIndex extends CommandBase {
+  VerticalIndexer m_indexer;
+  int m_counter;
   /**
-   * Creates a new IntakeABall.
+   * Creates a new AdvanceVerticalIndex.
    */
-  public IntakeABall(Intake intake) {
-    m_intake = intake;
+  public BackupVerticalIndex(VerticalIndexer indexer) {
+    m_indexer = indexer;
     m_counter = 0;
-    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(indexer);
   }
 
   // Called when the command is initially scheduled.
@@ -33,23 +32,26 @@ public class IntakeABall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.ingest();
+    //m_indexer.advanceBall(m_targetPosition);
+    m_indexer.drive(-0.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.stop();
+    m_indexer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_intake.hasABall()){
-      m_counter += 1;
-    } else {
-      m_counter = 0;
-    }
-    return m_counter > 30;
+    //because there are 2 different distance moves depending on whether we are moving a ball from stage 3 or stage 4
+      if(m_indexer.ballAtBottomSensor()){
+        return true;      
+      }
+      if(!m_indexer.ballAtMidOrTopSensor()){
+        m_counter += 1;
+      }
+    return m_counter > 5;
   }
 }

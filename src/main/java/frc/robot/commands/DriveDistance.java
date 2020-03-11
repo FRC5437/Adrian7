@@ -12,7 +12,8 @@ import frc.robot.subsystems.Chassis;
 
 public class DriveDistance extends CommandBase {
   Chassis m_chassis;
-  int m_targetPosition;
+  int m_leftTargetPosition;
+  int m_rightTargetPosition;
   double m_distanceInches;
   int m_counter = 0;
 
@@ -30,13 +31,14 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initialize() {
     m_counter = 0;
-    m_targetPosition = m_chassis.convertInchesToTarget(m_distanceInches);
+    m_leftTargetPosition = m_chassis.convertLeftInchesToTarget(m_distanceInches);
+    m_rightTargetPosition = m_chassis.convertRightInchesToTarget(m_distanceInches);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_chassis.driveAuto(m_targetPosition);
+    m_chassis.driveAuto(m_leftTargetPosition, m_rightTargetPosition);
   }
 
   // Called once the command ends or is interrupted.

@@ -54,7 +54,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void ingest(){
-    m_intakeBeltMotor.set(ControlMode.PercentOutput, -0.9);
+    m_intakeBeltMotor.set(ControlMode.PercentOutput, -0.98);
   }
 
   public void eject(){

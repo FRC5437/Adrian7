@@ -19,10 +19,10 @@ public class Stack2 extends SequentialCommandGroup {
   /**
    * Creates a new Stack3.
    */
-  public Stack2(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
+  public Stack2(HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new StackTheMagazine(intake, horizontalIndexer, verticalIndexer),
-          new StackTheMagazine(intake, horizontalIndexer, verticalIndexer) );
+    super(new StackTheMagazine(horizontalIndexer, verticalIndexer),
+          new StackTheMagazine(horizontalIndexer, verticalIndexer) );
   }
 }

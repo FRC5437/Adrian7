@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.HorizontalIndexer;
@@ -22,9 +24,12 @@ public class Auto3BallSequence extends SequentialCommandGroup {
   /**
    * Creates a new Auto3BallSequence.
    */
-  public Auto3BallSequence(Shooter shooter, VerticalIndexer indexer, HorizontalIndexer horizontalIndexer, Intake intake, Chassis chassis) {
+  public Auto3BallSequence(Shooter shooter, VerticalIndexer indexer, HorizontalIndexer horizontalIndexer, Intake intake, Chassis chassis, double distance) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShootAtSpeed(Constants.SPEED_FOR_INITIATION_LINE, shooter, indexer, horizontalIndexer), new LowerIntake(intake), new DriveDistance(chassis, -36.0));
+    super( new ParallelRaceGroup(new ShootAtSpeed(Constants.SPEED_FOR_INITIATION_LINE, shooter, indexer, horizontalIndexer), new WaitCommand(4.0)),
+           new ParallelRaceGroup(new DriveDistance(chassis, -1.0 * distance), new WaitCommand(1.5)),
+           new ParallelRaceGroup(new LowerIntake(intake), new WaitCommand(1.0))
+         );
   }
 }

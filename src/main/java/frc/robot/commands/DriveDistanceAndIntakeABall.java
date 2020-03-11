@@ -8,6 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.HorizontalIndexer;
 import frc.robot.subsystems.Intake;
@@ -16,14 +19,15 @@ import frc.robot.subsystems.VerticalIndexer;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class DriveDistanceAndStackMagazine extends ParallelCommandGroup {
+public class DriveDistanceAndIntakeABall extends ParallelDeadlineGroup {
   /**
    * Creates a new DriveDistanceAndStackMagazine.
    */
-  public DriveDistanceAndStackMagazine(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer, Chassis chassis, double distance) {
+  public DriveDistanceAndIntakeABall(Intake intake, Chassis chassis, double distance) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     //super(new StackTheMagazine(intake, horizontalIndexer, verticalIndexer), new DriveDistance(chassis, distance));
-    super(new IntakeABall(intake), new DriveDistance(chassis, distance));
+    super(new SequentialCommandGroup(new DriveDistance(chassis, distance), new WaitCommand(2.0)),
+          new IntakeABall(intake));
   }
 }

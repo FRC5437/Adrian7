@@ -7,9 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.HorizontalIndexer;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.VerticalIndexer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,9 +19,11 @@ public class StackTheMagazine extends SequentialCommandGroup {
   /**
    * Creates a new StackTheMagazine.
    */
-  public StackTheMagazine(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
+  public StackTheMagazine(HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new IntakeABall(intake), new AdvanceHorizontalIndexer(horizontalIndexer), new AdvanceVerticalIndex(verticalIndexer));
+    super(new AdvanceHorizontalIndexer(horizontalIndexer), 
+    new ParallelDeadlineGroup(new AdvanceVerticalIndex(verticalIndexer), new AdvanceHorizontalIndexer(horizontalIndexer)),
+    new BackupVerticalIndex(verticalIndexer));
   }
 }

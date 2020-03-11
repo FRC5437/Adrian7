@@ -60,14 +60,22 @@ public class Chassis extends SubsystemBase {
     return m_rightMasterMotor.getClosedLoopError() < Constants.TALON_DRIVE_TOLERANCE;
   }
 
-  public int convertInchesToTarget(double distanceInches){
-    int distanceInTicks = (int)(Constants.WHEEL_GEAR_RATIO * Constants.WHEEL_ROTATIONS_PER_INCH * distanceInches * Constants.K_UNITS_PER_REVOLUTION);
-    return m_rightMasterMotor.getSelectedSensorPosition() + distanceInTicks;
+  public int convertLeftInchesToTarget(double distanceInches){
+    return convertInchesToTarget(distanceInches, m_leftMasterMotor);
+  }
+  
+  public int convertRightInchesToTarget(double distanceInches){
+    return convertInchesToTarget(distanceInches, m_rightMasterMotor);
   }
 
-  public void driveAuto(int targetPos){
-    m_rightMasterMotor.set(TalonFXControlMode.MotionMagic, targetPos);
-    m_leftMasterMotor.set(TalonFXControlMode.MotionMagic, targetPos);
+  private int convertInchesToTarget(double distanceInches, WPI_TalonFX motor){
+    int distanceInTicks = (int)(Constants.WHEEL_GEAR_RATIO * Constants.WHEEL_ROTATIONS_PER_INCH * distanceInches * Constants.K_UNITS_PER_REVOLUTION);
+    return motor.getSelectedSensorPosition() + distanceInTicks;
+  }
+
+  public void driveAuto(int leftTargetPos, int rightTargetPos){
+    m_rightMasterMotor.set(TalonFXControlMode.MotionMagic, leftTargetPos);
+    m_leftMasterMotor.set(TalonFXControlMode.MotionMagic, rightTargetPos);
   }
 
   /**

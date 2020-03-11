@@ -8,22 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.subsystems.HorizontalIndexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.VerticalIndexer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootTheMoon extends SequentialCommandGroup {
+public class ExecuteSCurveLeft extends SequentialCommandGroup {
   /**
-   * Creates a new ShootTheMoon.
+   * Creates a new ExecuteSCurveLeft.
    */
-  public ShootTheMoon(Shooter shooter, VerticalIndexer vertical, HorizontalIndexer horizontal) {
+  public ExecuteSCurveLeft() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShootAtSpeed(Constants.SPEED_FOR_END_OF_TRENCH_RUN,shooter, vertical, horizontal));
+    super();
   }
 }

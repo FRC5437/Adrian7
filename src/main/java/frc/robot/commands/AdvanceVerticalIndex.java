@@ -12,7 +12,6 @@ import frc.robot.subsystems.VerticalIndexer;
 
 public class AdvanceVerticalIndex extends CommandBase {
   VerticalIndexer m_indexer;
-  int m_targetPosition = 0;
   int m_counter;
   /**
    * Creates a new AdvanceVerticalIndex.
@@ -28,14 +27,13 @@ public class AdvanceVerticalIndex extends CommandBase {
   @Override
   public void initialize() {
     m_counter = 0;
-    m_targetPosition = m_indexer.getCurrentPosition() + 5950;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //m_indexer.advanceBall(m_targetPosition);
-    m_indexer.drive(0.35);
+    m_indexer.drive(0.4);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,10 +46,10 @@ public class AdvanceVerticalIndex extends CommandBase {
   @Override
   public boolean isFinished() {
     //because there are 2 different distance moves depending on whether we are moving a ball from stage 3 or stage 4
-      if(m_indexer.ballAtMidSensor()){
+      if(m_indexer.ballAtMidOrTopSensor()){
         return true;      
       }
-      if(m_indexer.ballAtBottomSensor() || m_indexer.ballAtMidSensor()){
+      if(m_indexer.ballAtBottomSensor()){
         m_counter += 1;
       }
     return m_counter > 5;

@@ -64,7 +64,7 @@ public class VerticalIndexer extends SubsystemBase {
     return !m_verticalIndexerBottomSensor.get();
   }
 
-  public boolean ballAtMidSensor(){
+  public boolean ballAtMidOrTopSensor(){
     return !m_verticalIndexerMidSensor.get() || !m_verticalIndexerTopSensor.get();
   }
 
