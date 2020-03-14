@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
-  private final double m_kP = 10.0;
-  private final double m_tolerance = 1.0;
+  private final double m_kP = 0.05;
+  private final double m_tolerance = 0.5;
   private final WPI_TalonSRX m_turretMotor = new WPI_TalonSRX(Constants.TURRET_MOTOR_ID);
   private final NetworkTableInstance m_tableInstance;
   private NetworkTable m_limelight;
@@ -44,17 +44,17 @@ public class Turret extends SubsystemBase {
 
   public void trackCameraTarget(){
     //TODO ensure limits to rotation are enforced! Ideally limit switches - fallback plan is to zero encoder facing front and limit the range
-    boolean foundTarget = m_limelight.getEntry("tv").getBoolean(false);
+    //boolean foundTarget = m_limelight.getEntry("tv").getBoolean(false);
     double degreesFromTarget = m_limelight.getEntry("tx").getDouble(0.0);
-    if (foundTarget){
+    //if (foundTarget){
       if (Math.abs(degreesFromTarget) > m_tolerance ){
         m_turretMotor.set(ControlMode.PercentOutput, degreesFromTarget * m_kP);
       } else {
         m_turretMotor.set(ControlMode.PercentOutput, 0.0);
       }
-    } else {
-      m_turretMotor.set(ControlMode.PercentOutput, 0.0);
-    }
+   // } else {
+   //   m_turretMotor.set(ControlMode.PercentOutput, 0.0);
+   // }
   }
 
   public void stop(){

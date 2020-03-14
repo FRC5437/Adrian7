@@ -21,6 +21,7 @@ public class Auto6Ball extends SequentialCommandGroup {
   public Auto6Ball(Intake intake, HorizontalIndexer horizontalIndexer, VerticalIndexer verticalIndexer, Chassis chassis, Shooter shooter){
     super(new Auto3BallSequence(shooter, verticalIndexer, horizontalIndexer, intake, chassis, 0.0),
           new DriveDistanceAndIntakeABall(intake, chassis, 91), 
+          new ParallelRaceGroup(new StackTheMagazine(horizontalIndexer, verticalIndexer), new WaitCommand(3.0)),
           new DriveDistanceAndIntakeABall(intake, chassis, 36),
           new ParallelRaceGroup(new StackTheMagazine(horizontalIndexer, verticalIndexer), new WaitCommand(3.0)),
           new DriveDistanceAndIntakeABall(intake, chassis, 36), 
