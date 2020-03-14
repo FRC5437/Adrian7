@@ -61,7 +61,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_chassis.setDefaultCommand(new DriveRobot(m_chassis, m_driverController));
-    m_turret.setDefaultCommand(new RotateTurret(m_turret, m_operatorController));
+    m_turret.setDefaultCommand(new AimAtLimelightTarget(m_turret, m_lights));
     m_intake.setDefaultCommand(new DriveIntake(m_intake, m_driverController));
     m_climber.setDefaultCommand(new DriveClimber(m_climber, m_operatorController));
     initializeAutoChooser();
@@ -124,7 +124,7 @@ public class RobotContainer {
         .whileHeld(new ShootAtSpeed(17500, m_shooter, m_verticalIndexer, m_horizontalIndexer));
 
     new JoystickButton(m_operatorController, Button.kA.value)
-        .whileHeld(new AimAtLimelightTarget(m_turret));
+        .whileHeld(new AimAtLimelightTarget(m_turret, m_lights));
 
     new JoystickButton(m_operatorController, Button.kB.value)
         .whileHeld(new ShootDynamic(m_shooter, m_verticalIndexer, m_turret));

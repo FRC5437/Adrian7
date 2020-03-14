@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -16,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
-  private final double m_kP = 0.05;
-  private final double m_tolerance = 0.3;
+  private final double m_kP = 0.07;
+  private final double m_tolerance = 0.5;
   private final WPI_TalonSRX m_turretMotor = new WPI_TalonSRX(Constants.TURRET_MOTOR_ID);
   private final NetworkTableInstance m_tableInstance;
   private NetworkTable m_limelight;
@@ -29,6 +30,8 @@ public class Turret extends SubsystemBase {
     m_tableInstance = NetworkTableInstance.getDefault();
     m_limelight = m_tableInstance.getTable("limelight-shooter");
     m_turretMotor.configFactoryDefault();
+    m_turretMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, Constants.TALON_PID_LOOP_INDEX, Constants.TALON_TIMEOUT_MS);
+    m_turretMotor.setSelectedSensorPosition(0);
   }
 
   public double getTargetArea(){
@@ -73,17 +76,13 @@ public class Turret extends SubsystemBase {
    */
   private double getEnhancedJoystickInput(double rawValue) {
     int sign = (int) Math.signum(rawValue);
-    double modifiedValue = Math.pow(rawValue, 4.0);//rawValue * rawValue * rawValue * rawValue;
+    double modifiedValue = Math.pow(rawValue, 2.0);//rawValue * rawValue * rawValue * rawValue;
     //deadband
     if (modifiedValue < 0.04) {
         modifiedValue = 0.0;
     }
     double enhancedValue = sign * modifiedValue;
-    if (enhancedValue > 0.15){
-      return 0.15;
-    } else {
-      return enhancedValue;
-    }
+    return enhancedValue;
   }
 
   @Override

@@ -8,17 +8,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Turret;
 
 public class AimAtLimelightTarget extends CommandBase {
   Turret m_turret;
+  Lights m_lights;
   /**
    * Creates a new AimAtLimelightTarget.
    */
-  public AimAtLimelightTarget(Turret turret) {
+  public AimAtLimelightTarget(Turret turret, Lights lights) {
     m_turret = turret;
+    m_lights = lights;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(turret);
+    addRequirements(turret, lights);
   }
 
   // Called when the command is initially scheduled.
@@ -30,6 +33,11 @@ public class AimAtLimelightTarget extends CommandBase {
   @Override
   public void execute() {
     m_turret.trackCameraTarget();
+    if (m_turret.onTarget()){
+      m_lights.setPatternValue(0.73);
+    } else {
+      m_lights.setPatternValue(0.61);
+    }
   }
 
   // Called once the command ends or is interrupted.
