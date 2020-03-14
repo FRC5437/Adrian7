@@ -35,6 +35,7 @@ public class RobotContainer {
   private final HorizontalIndexer m_horizontalIndexer = new HorizontalIndexer();
   private final VerticalIndexer m_verticalIndexer = new VerticalIndexer();
   private final Climber m_climber = new Climber();
+  private final Lights m_lights = new Lights();
 
   private SendableChooser<Command> m_autoChooser;
   private Command m_autoCommand;
@@ -127,6 +128,9 @@ public class RobotContainer {
 
     new JoystickButton(m_operatorController, Button.kB.value)
         .whileHeld(new ShootDynamic(m_shooter, m_verticalIndexer, m_turret));
+
+    new JoystickButton(m_operatorController, Button.kBumperRight.value)
+        .whenPressed(new ActivateLights(m_lights));
   }
 
 

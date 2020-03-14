@@ -17,7 +17,7 @@ import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
   private final double m_kP = 0.05;
-  private final double m_tolerance = 0.5;
+  private final double m_tolerance = 0.3;
   private final WPI_TalonSRX m_turretMotor = new WPI_TalonSRX(Constants.TURRET_MOTOR_ID);
   private final NetworkTableInstance m_tableInstance;
   private NetworkTable m_limelight;
@@ -36,10 +36,9 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean onTarget(){
-    boolean foundTarget = m_limelight.getEntry("tv").getBoolean(false);
     double degreesFromTarget = m_limelight.getEntry("tx").getDouble(0.0);
     boolean withinTolerance = Math.abs(degreesFromTarget) < m_tolerance;
-    return (foundTarget && withinTolerance);
+    return (withinTolerance);
   }
 
   public void trackCameraTarget(){
